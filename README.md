@@ -11,6 +11,7 @@ A simple program to start a terminal session on a remote server. `destination` c
 Options:
 
 -l `username`    Log in as `username`. This overrides the default which the name of the user invoking `rls`.
+
 -p `port`        Connect to the server on port `port`. This overrides the default which is **login**.
 
 ## FILES
