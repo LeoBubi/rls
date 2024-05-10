@@ -15,7 +15,7 @@ Options:
 -p `port` - Connect to the server on port `port`. This overrides the default which is **login**.
 
 ## FILES
-~/.rls    rls configuration file
+~/.config/rls/rls.conf - rls configuration file
 
 ## AUTHOR
 Written by Leonardo Brugnano <brugnano.2128518@studenti.uniroma1.it>.
