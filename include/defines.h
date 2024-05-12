@@ -23,4 +23,14 @@
 int rls_init(int argc, char **argv);
 
 
+/**
+ * @brief Read a line of text from a file descriptor.
+ * @param line Buffer to store the line.
+ * @param n Size of the buffer.
+ * @param fd File descriptor.
+ * @return 1 if successful, 0 otherwise.
+*/
+int rdline(char *line, size_t n, int fd);
+
+
 #endif /* _DEFINES_H */
