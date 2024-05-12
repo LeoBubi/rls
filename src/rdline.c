@@ -4,7 +4,7 @@ int
 rdline(char *line, size_t n, int fd) 
 {
     ssize_t rb;     // read byte
-    size_t  tb = 0; // total bytes read
+    size_t  tb = 0; // total bytes in line
     char    rc;     // read character
 
     while (tb < n-1) 
@@ -18,8 +18,13 @@ rdline(char *line, size_t n, int fd)
             return 0;
         }
 
-        else if (rb == 0)
+        else if (rb == 0) 
+        {
+            if (tb == 0)
+                return 0; // no more lines to read
+            
             fun_fail("Corrupted configuration file: no newline at end of file.")
+        }
 
         if (rc == '\n') 
         {
