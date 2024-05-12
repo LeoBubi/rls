@@ -13,7 +13,7 @@ rdline(char *line, size_t n, int fd)
         
         if (rb == -1) {
 #ifdef __DEBUG
-            perror("redline: read");
+            perror("rdline: read");
 #endif
             return 0;
         }
