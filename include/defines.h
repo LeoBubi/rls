@@ -9,6 +9,8 @@
 #define PORTMIN  1      // minimum server port number
 #define PORTMAX  65535  // maximum server port number
 
+#define CLINMAX 128 // maximum line length in configuration file
+
 
 #define main_fail(msg) { fprintf(stderr, "%s\n", msg); exit(EXIT_FAILURE); }
 #define fun_fail(msg)  { fprintf(stderr, "%s\n", msg); return 0; }
