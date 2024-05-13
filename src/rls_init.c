@@ -18,6 +18,12 @@ int config_get(char *key, char *value, size_t n);
 int
 rls_init(int argc, char **argv)
 {
+    // compute configuration file path
+    char *home = getenv("HOME");
+    if (home == NULL)
+        fun_fail("Failed to get home directory.")
+    snprintf(CONFIG_FILE, sizeof(CONFIG_FILE), "%s/.config/rls/rls.conf", home);
+
     // check configuration file existence
     if (access(CONFIG_FILE, F_OK) == -1)
         fun_fail("Configuration file not found.")

@@ -1,8 +1,8 @@
 #ifndef _DEFINES_H
 #define _DEFINES_H
 
-
-#define CONFIG_FILE "~/.config/rls/rls.conf"
+#include <linux/limits.h>
+char CONFIG_FILE[PATH_MAX]; // configuration file path
 
 #define UNAMEMIN 1      // minimum username length
 #define UNAMEMAX 32     // maximum username length
