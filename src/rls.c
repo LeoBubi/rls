@@ -30,7 +30,14 @@ main(int argc, char *argv[])
     printf("Server IP: %s\n", inet_ntoa(server_ip));
     printf("Server port: %d\n", port);
 
-
-
-    return 0;
+    // connect to server
+    int sockfd = rls_connect();
+    if (!sockfd)
+        main_fail("Cannot connect to server.")
+    
+    // establish user session
+    if (!rls_session(sockfd)) {
+        close(sockfd);
+        main_fail("Cannot start new terminal session.")
+    }
 }
