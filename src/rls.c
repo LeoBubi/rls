@@ -17,5 +17,7 @@ main(int argc, char *argv[])
     if (!rls_init(argc, argv))
         main_fail("Failed to initialize.")
     
-
+    printf("Username: %s\n", username);
+    printf("Server IP: %s\n", inet_ntoa(server_ip));
+    printf("Server port: %d\n", port);
 }
