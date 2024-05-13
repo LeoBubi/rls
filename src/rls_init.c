@@ -75,14 +75,18 @@ rls_init(int argc, char **argv)
         {
             struct hostent *host = gethostbyname(argv[i]);
             if (host == NULL)
-                fun_fail("Ivalid hostname or IP address.")
+                fun_fail("Invalid hostname or IP address.")
             
             server_ip = *(struct in_addr *)host->h_addr_list[0];
         }
         
     }
 
-    // if username not privided, get from configuration file
+    // if destination not provided, fail
+    if (server_ip.s_addr == 0)
+        fun_fail("No destination provided.")
+
+    // if username not provided, get from configuration file
     if (username[0] == '\0')
     {
         if (!config_get("USERNAME", username, UNAMEMAX+1))
