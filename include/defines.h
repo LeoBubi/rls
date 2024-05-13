@@ -50,4 +50,12 @@ int isint(const char *s);
 int rls_connect(void);
 
 
+/**
+ * @brief Start a terminal session on the server.
+ * @param sockfd Socket file descriptor.
+ * @return 1 if successful, 0 otherwise.
+*/
+int rls_session(int sockfd);
+
+
 #endif /* _DEFINES_H */
