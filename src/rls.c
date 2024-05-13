@@ -11,6 +11,13 @@ struct in_addr server_ip;    // server IP address
 int
 main(int argc, char *argv[])
 {
+    // if no arguments provided print usage
+    if (argc == 1)
+    {
+        printf("Usage: %s destination [-l username] [-p port]\n", argv[0]);
+        return 0;
+    }
+
     // check to make sure we are not running as root
     if (getuid() == 0 || geteuid() == 0)
         main_fail("ERROR: Running as root is unnecessary and hence not allowed.")
