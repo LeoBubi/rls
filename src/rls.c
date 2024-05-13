@@ -13,7 +13,7 @@ main(int argc, char *argv[])
 {
     // check to make sure we are not running as root
     if (getuid() == 0 || geteuid() == 0)
-        main_fail("ERROR: Running as root is extremely dangerous and hence not allowed.")
+        main_fail("ERROR: Running as root is unnecessary and hence not allowed.")
 
     // initialize rls parameters
     if (!rls_init(argc, argv))
@@ -22,6 +22,8 @@ main(int argc, char *argv[])
     printf("Username: %s\n", username);
     printf("Server IP: %s\n", inet_ntoa(server_ip));
     printf("Server port: %d\n", port);
+
+
 
     return 0;
 }
