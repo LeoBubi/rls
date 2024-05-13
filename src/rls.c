@@ -1,6 +1,8 @@
 #include "includes.h"
 
 
+char CONFIG_FILE[PATH_MAX]; // configuration file path
+
 char username[UNAMEMAX +1];  // +1 for null terminator
 int port;                    // server port number
 struct in_addr server_ip;    // server IP address
@@ -20,4 +22,6 @@ main(int argc, char *argv[])
     printf("Username: %s\n", username);
     printf("Server IP: %s\n", inet_ntoa(server_ip));
     printf("Server port: %d\n", port);
+
+    return 0;
 }
