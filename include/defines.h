@@ -35,4 +35,12 @@ int rls_init(int argc, char **argv);
 int rdline(char *line, size_t n, int fd);
 
 
+/**
+ * @brief Check if a string is an integer.
+ * @param s String to check.
+ * @return 1 if integer, 0 otherwise.
+*/
+int isint(const char *s);
+
+
 #endif /* _DEFINES_H */
