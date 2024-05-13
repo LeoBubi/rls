@@ -36,7 +36,7 @@ rls_init(int argc, char **argv)
     port = 0;               // initialize port to 0
     server_ip.s_addr = 0;   // initialize server IP to 0
     
-    // check command line options
+    // check command line arguments
     for (int i = 1; i < argc; i++)
     {
         // check for username option
