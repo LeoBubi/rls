@@ -49,6 +49,8 @@ rls_init(int argc, char **argv)
         {
             if (i+1 >= argc)
                 fun_fail("No port provided.")
+            if (!isint(argv[i+1]))
+                fun_fail("Port number must be an integer.")
             if (atoi(argv[i+1]) < PORTMIN)
                 fun_fail("Port number too low.")
             if (atoi(argv[i+1]) > PORTMAX)
