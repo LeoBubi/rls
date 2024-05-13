@@ -72,8 +72,25 @@ rls_init(int argc, char **argv)
         if (!config_get("USERNAME", username, UNAMEMAX+1))
             fun_fail("Failed to get username from configuration file.")
     }
-        
 
+    // if port not provided, get from configuration file
+    if (port == 0)
+    {
+        char port_str[6]; // 5 digits + null terminator
+        if (!config_get("PORT", port_str, 6))
+            fun_fail("Failed to get port from configuration file.")
+        
+        if (!isint(port_str))
+            fun_fail("Port number in configuration file must be an integer.")
+        if (atoi(port_str) < PORTMIN)
+            fun_fail("Port number in configuration file too low.")
+        if (atoi(port_str) > PORTMAX)
+            fun_fail("Port number in configuration file too high.")
+        
+        port = atoi(port_str);
+    }
+
+    return 1;
 }
 
 
