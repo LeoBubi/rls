@@ -26,4 +26,4 @@ $(TARGET): $(OBJS)
 
 # Clean up object files, target executable, and obj directory
 clean:
-	rm -rf $(OBJDIR) $(TARGET)
+	rm -rfv $(OBJDIR) $(TARGET)
