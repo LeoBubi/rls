@@ -43,4 +43,11 @@ int rdline(char *line, size_t n, int fd);
 int isint(const char *s);
 
 
+/**
+ * @brief Connect to server.
+ * @return Socket file descriptor if successful, 0 otherwise.
+*/
+int rls_connect(void);
+
+
 #endif /* _DEFINES_H */
