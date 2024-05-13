@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pedantic -std=17 -I inlude
+CFLAGS = -Wall -Wextra -Werror -pedantic -std=c17 -I inlude
 
 SRCDIR = src
 SRCS = $(wildcard $(SRCDIR)/*.c)
