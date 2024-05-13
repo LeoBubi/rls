@@ -3,6 +3,7 @@
 
 extern char username[UNAMEMAX +1];
 extern int port;
+extern struct in_addr server_ip;
 
 /**
  * @brief Get configuration value from configuration file.
@@ -25,8 +26,9 @@ rls_init(int argc, char **argv)
     if (access(CONFIG_FILE, R_OK) == -1)
         fun_fail("Configuration file not readable.")
     
-    username[0] = '\0'; // initialize username to empty string
-    port = 0;           // initialize port to 0
+    username[0] = '\0';     // initialize username to empty string
+    port = 0;               // initialize port to 0
+    server_ip.s_addr = 0;   // initialize server IP to 0
     
     // check command line options
     for (int i = 1; i < argc; i++)
@@ -59,11 +61,19 @@ rls_init(int argc, char **argv)
             port = atoi(argv[++i]);
         }
 
-        // invalid option
-        else {
-            fprintf(stderr, "%s: ", argv[i]);
-            fun_fail("invalid option.");
+        else if (argv[i][0] == '-')
+            fun_fail("Invalid option.")
+
+        // check for detination (IP address or hostname) argument
+        else
+        {
+            struct hostent *host = gethostbyname(argv[i]);
+            if (host == NULL)
+                fun_fail("Ivalid hostname or IP address.")
+            
+            server_ip = *(struct in_addr *)host->h_addr_list[0];
         }
+        
     }
 
     // if username not privided, get from configuration file
