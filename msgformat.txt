@@ -25,4 +25,4 @@
 	TYPE|ACK
 
 		TYPE [char]		- Set to 2
-		CODE [int]		- ACK value
+		CODE [unsigned]	- ACK value
