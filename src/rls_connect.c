@@ -32,19 +32,19 @@ rls_connect(void)
         return 0;
     }
 
-    // receive ACK (= 1) from server
-    int ack;
-    if (read(sockfd, &ack, sizeof(ack)) == -1) {
-#ifdef __DEBUG
-        perror("rls_connect: read");
-#endif
+    // receive ACK from server
+	// ACK = 0:  connection established
+	// ACK > 0:  connection refused
+	// ACK = -1: communication error
+    int ack = getack(sockfd);
+    if (ack == -1) {
         close(sockfd);
         return 0;
     }
 
-    if (ack != 1) {
+    if (ack > 0) {
 #ifdef __DEBUG
-        fprintf(stderr, "rls_connect: Illegal ACK value from server.\n");
+        fprintf(stderr, "rls_connect: server ACK = %d\n", ack);
 #endif
         close(sockfd);
         return 0;

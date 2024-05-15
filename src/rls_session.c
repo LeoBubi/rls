@@ -10,9 +10,9 @@ rls_session(int sockfd)
     int ack;   // ACK value from server
 
     // send username to server
-    if (write(sockfd, username, strlen(username) +1) == -1) {
+    if (!sndmsg(sockfd, username)) {
 #ifdef __DEBUG
-        perror("rls_session: send username: write");
+        fprintf(stderr, "rls_session: cannot send username.\n");
         return 0;
 #else
         fun_fail("Communication error.")
@@ -20,26 +20,20 @@ rls_session(int sockfd)
     }
 
     // receive ACK from server
-    // ACK = 1: user exists
-    // ACK = 0: user doesn't exist or illegal (root)
-    if (read(sockfd, &ack, sizeof(ack)) == -1) {
+    // ACK = 0: user exists
+    // ACK > 0: user doesn't exist or illegal (root)
+    ack = getack(sockfd);
+    if (ack == -1) {
 #ifdef __DEBUG
-        perror("rls_session: receive username ack: read");
+        fprintf(stderr, "rls_session: cannot receive username ack.\n");
         return 0;
 #else
         fun_fail("Communication error.")
 #endif
     }
 
-    if (ack == 0) {
-        printf("Illegal user.\n");
-        return 0;
-    }
-
-    else if (ack != 1) {
-#ifdef __DEBUG
-        fprintf(stderr, "rls_session: Illegal ACK value from server.\n");
-#endif
+    if (ack > 0) {
+        printf("User doesn't exist or illegal.\n");
         return 0;
     }
 
@@ -54,39 +48,31 @@ rls_session(int sockfd)
         return 0;
     }
 
-    if (write(sockfd, password, strlen(password) +1) == -1) {
-        free(password);
+    if (!sndmsg(sockfd, password)) {
 #ifdef __DEBUG
-        perror("rls_session: send password: write");
-        return 0;
-#else
-        fun_fail("Communication error.")
+        fprintf(stderr, "rls_session: cannot send password.\n");
 #endif
+        free(password);
+        return 0;
     }
 
     free(password);
 
     // receive ACK from server
-    // ACK = 1: password correct
-    // ACK = 0: password incorrect
-    if (read(sockfd, &ack, sizeof(ack)) == -1) {
+    // ACK = 0: password correct
+    // ACK > 0: password incorrect
+    ack = getack(sockfd);
+    if (ack == -1) {
 #ifdef __DEBUG
-        perror("rls_session: receive password ack: read");
+        fprintf(stderr, "rls_session: cannot receive password ack.\n");
         return 0;
 #else
         fun_fail("Communication error.")
 #endif
     }
 
-    if (ack == 0) {
+    if (ack > 0) {
         printf("Incorrect password.\n");
-        return 0;
-    }
-
-    else if (ack != 1) {
-#ifdef __DEBUG
-        fprintf(stderr, "rls_session: Illegal ACK value from server.\n");
-#endif
         return 0;
     }
 

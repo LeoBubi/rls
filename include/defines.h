@@ -81,7 +81,7 @@ int rls_communicate(int sockfd);
 /**
  * @brief Get message from server.
  * @param sockfd Socket file descriptor.
- * @return Message string if successful, NULL otherwise.
+ * @return Message string if successful, an empty string if server closed connection, or NULL otherwise.
  * @note Returned string must be freed by the caller.
 */
 char* getmsg(int sockfd);
