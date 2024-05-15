@@ -58,4 +58,13 @@ int rls_connect(void);
 int rls_session(int sockfd);
 
 
+/**
+ * @brief Get user input.
+ * @param prompt Prompt message or NULL.
+ * @return User input string.
+ * @note Returned string must be freed by the caller.
+*/
+char* userinput(char* prompt);
+
+
 #endif /* _DEFINES_H */
