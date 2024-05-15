@@ -2,8 +2,6 @@
 
 
 extern char username[UNAMEMAX +1];
-extern int port;
-extern struct in_addr server_ip;
 
 
 int
