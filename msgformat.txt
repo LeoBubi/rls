@@ -1,0 +1,28 @@
+
+>	Control message format:
+
+    TYPE|CODE
+
+        TYPE [char]		- Set to 0
+        CODE [char]		- Specify the kind of control message
+
+            1 (SIGINT) - Send a SIGINT signal to the remote shell session
+
+
+
+>	Data message format:
+
+    TYPE|SIZE|PAYLOAD
+
+        TYPE [char]		- Set to 1
+        SIZE [size_t]	- Size in bytes of the payload
+        PAYLOAD			- Paylaod of the message
+
+
+
+>	Acknowledgement message format:
+
+	TYPE|ACK
+
+		TYPE [char]		- Set to 2
+		CODE [int]		- ACK value
