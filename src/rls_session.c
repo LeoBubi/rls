@@ -48,6 +48,8 @@ rls_session(int sockfd)
     if (!password) {
 #ifdef __DEBUG
         fprintf(stderr, "rls_session: userinput failed.\n");
+#else
+        fprintf(stderr, "An unexpected error occurred.\n");
 #endif
         return 0;
     }
