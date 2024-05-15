@@ -11,6 +11,9 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 
 #define CLINMAX 128 // maximum line length in configuration file
 
+#define DATAMSG_TYPE 0  // message type
+#define CTRLMSG_TYPE 1 // control type
+
 
 #define main_fail(msg) { fprintf(stderr, "%s\n", msg); exit(EXIT_FAILURE); }
 #define fun_fail(msg)  { fprintf(stderr, "%s\n", msg); return 0; }
@@ -93,21 +96,12 @@ int getack(int sockfd);
 
 
 /**
- * @brief Send message to server.
+ * @brief Send data message to server.
  * @param sockfd Socket file descriptor.
  * @param msg Message string.
  * @return 1 if successful, 0 otherwise.
 */
 int sndmsg(int sockfd, const char *msg);
-
-
-/**
- * @brief Send acknowledgment to server.
- * @param sockfd Socket file descriptor.
- * @param ack Acknowledgment value.
- * @return 1 if successful, 0 otherwise.
-*/
-int sndack(int sockfd, unsigned ack);
 
 
 /**
