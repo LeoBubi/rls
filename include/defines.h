@@ -61,7 +61,7 @@ int rls_session(int sockfd);
 /**
  * @brief Get user input.
  * @param prompt Prompt message or NULL.
- * @return User input string.
+ * @return User input string w/o newline character.
  * @note Returned string must be freed by the caller.
 */
 char* userinput(char* prompt);
