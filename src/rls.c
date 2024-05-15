@@ -40,4 +40,13 @@ main(int argc, char *argv[])
         close(sockfd);
         main_fail("Cannot start new terminal session.")
     }
+
+    // communicate with server
+    int rv = rls_communicate(sockfd);
+
+    // close connection
+    printf("Terminated connection.\n");
+    close(sockfd);
+
+    exit(rv ? EXIT_SUCCESS : EXIT_FAILURE);
 }

@@ -67,4 +67,12 @@ int rls_session(int sockfd);
 char* userinput(char* prompt);
 
 
+/**
+ * @brief Communicate with server.
+ * @param sockfd Socket file descriptor.
+ * @return 1 if successful, 0 otherwise.
+*/
+int rls_communicate(int sockfd);
+
+
 #endif /* _DEFINES_H */
