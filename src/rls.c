@@ -45,8 +45,8 @@ main(int argc, char *argv[])
     int rv = rls_communicate(sockfd);
 
     // close connection
-    printf("Terminated connection.\n");
     close(sockfd);
+    printf("Terminated remote login session.\n");
 
     exit(rv ? EXIT_SUCCESS : EXIT_FAILURE);
 }
