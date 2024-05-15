@@ -50,7 +50,7 @@ rls_communicate(int sockfd)
         // server response ready
         else if (FD_ISSET(sockfd, &readfds))
         {
-            
+            // MAYBE YOU SHOULD INCLUDE A FIXED HEADER TO INDICATE THE LENGTH OF THE MESSAGE
         }
     }
 }
