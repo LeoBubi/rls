@@ -75,4 +75,49 @@ char* userinput(char* prompt);
 int rls_communicate(int sockfd);
 
 
+/**
+ * @brief Get message from server.
+ * @param sockfd Socket file descriptor.
+ * @return Message string if successful, NULL otherwise.
+ * @note Returned string must be freed by the caller.
+*/
+char* getmsg(int sockfd);
+
+
+/**
+ * @brief Get acknowledgment from server.
+ * @param sockfd Socket file descriptor.
+ * @return ack value if successful, -1 otherwise.
+*/
+int getack(int sockfd);
+
+
+/**
+ * @brief Send message to server.
+ * @param sockfd Socket file descriptor.
+ * @param msg Message string.
+ * @return 1 if successful, 0 otherwise.
+*/
+int sndmsg(int sockfd, const char *msg);
+
+
+/**
+ * @brief Send acknowledgment to server.
+ * @param sockfd Socket file descriptor.
+ * @param ack Acknowledgment value.
+ * @return 1 if successful, 0 otherwise.
+*/
+int sndack(int sockfd, unsigned ack);
+
+
+/**
+ * @brief Send control message to server.
+ * @param sockfd Socket file descriptor.
+ * @param code Control message code.
+ * @return 1 if successful, 0 otherwise.
+*/
+int sndctrl(int sockfd, char code);
+
+
+
 #endif /* _DEFINES_H */
