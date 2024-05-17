@@ -15,6 +15,8 @@
 #include <netdb.h>
 #include <linux/limits.h>
 #include <sys/select.h>
+#include <signal.h>
+#include <errno.h>
 
 
 #include "defines.h"

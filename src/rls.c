@@ -8,6 +8,11 @@ int port;                    // server port number
 struct in_addr server_ip;    // server IP address
 
 
+// signal handler
+void signal_handler(int signo);
+volatile sig_atomic_t sigcode = 0; // signal code
+
+
 int
 main(int argc, char *argv[])
 {
@@ -49,4 +54,12 @@ main(int argc, char *argv[])
     printf("Terminated remote login session.\n");
 
     exit(rv ? EXIT_SUCCESS : EXIT_FAILURE);
+}
+
+
+// signal handler
+void signal_handler(int signo)
+{
+    sigcode = signo;
+    return;
 }

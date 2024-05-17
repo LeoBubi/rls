@@ -1,6 +1,9 @@
 #include "includes.h"
 
 
+extern volatile sig_atomic_t sigcode;
+
+
 int
 rls_communicate(int sockfd)
 {
@@ -13,7 +16,21 @@ rls_communicate(int sockfd)
     {
         // wait for user input or server message
         fd_set readfds = __readfds;
-        if (select(sockfd +1, &readfds, NULL, NULL, NULL) == -1) {
+        if (select(sockfd +1, &readfds, NULL, NULL, NULL) == -1) 
+        {
+            if (errno == EINTR && sigcode) {        // if non fatal signal received
+                if (!sndctrl(sockfd, sigcode)) {    // send it to server
+#ifdef __DEBUG
+                    fprintf(stderr, "rls_communicate: cannot send signal to server.\n");
+                    return 0;
+#else
+                    fun_fail("Communication error.")
+#endif
+                }
+
+                continue;
+            }
+
 #ifdef __DEBUG
             perror("rls_communicate: select");
             return 0;
