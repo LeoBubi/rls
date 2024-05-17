@@ -15,6 +15,9 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 #define main_fail(msg) { fprintf(stderr, "%s\n", msg); exit(EXIT_FAILURE); }
 #define fun_fail(msg)  { fprintf(stderr, "%s\n", msg); return 0; }
 
+#define DATAMSG_TYPE 0  // message type
+#define CTRLMSG_TYPE 1  // control type
+
 
 /**
  * @brief Initial checks and setup.
