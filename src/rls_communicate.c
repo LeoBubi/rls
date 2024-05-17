@@ -19,7 +19,7 @@ rls_communicate(int sockfd)
         if (select(sockfd +1, &readfds, NULL, NULL, NULL) == -1) 
         {
             if (errno == EINTR && sigcode) {        // if non fatal signal received
-                if (!sndctrl(sockfd, sigcode)) {    // send it to server
+                if (!sndsig(sockfd, sigcode)) {    // send it to server
 #ifdef __DEBUG
                     fprintf(stderr, "rls_communicate: cannot send signal to server.\n");
                     return 0;

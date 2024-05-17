@@ -107,7 +107,7 @@ int sndmsg(int sockfd, const char *msg);
  * @param code Control message code.
  * @return 1 if successful, 0 otherwise.
 */
-int sndctrl(int sockfd, char code);
+int sndsig(int sockfd, char code);
 
 
 
