@@ -35,6 +35,13 @@ main(int argc, char *argv[])
     printf("Server IP: %s\n", inet_ntoa(server_ip));
     printf("Server port: %d\n", port);
 
+    // set signal handler with sigaction
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(sa));
+    sa.sa_handler = signal_handler;
+    sigaction(SIGINT, &sa, NULL);   // SIGINT:  interrupt from keyboard
+    
+
     // connect to server
     int sockfd = rls_connect();
     if (!sockfd)
