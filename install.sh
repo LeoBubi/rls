@@ -3,7 +3,7 @@
 
 # Check if the script is run as root
 if [[ $EUID -eq 0 ]]; then
-    echo "Installation cannot be performed as root."
+    echo "Installation cannot be performed as root"
     exit 1
 fi
 
@@ -17,7 +17,7 @@ fi
 
 # Check if /usr/local/bin exists
 if [ ! -d "/usr/local/bin" ]; then
-    echo "Error: /usr/local/bin directory does not exist."
+    echo "Error: /usr/local/bin directory does not exist"
     exit 1
 fi
 
