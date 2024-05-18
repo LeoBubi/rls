@@ -24,10 +24,9 @@ main(int argc, char *argv[])
         main_fail("ERROR: Running as root is unnecessary and hence not allowed.")
     
     // if no arguments provided, print usage
-    if (argc == 1)
-    {
-        printf("Usage: %s destination [-l username] [-p port]\n", argv[0]);
-        return 0;
+    if (argc == 1) {
+        print_usage(argv[0]);
+        exit(EXIT_SUCCESS);
     }
 
     // initialize rls parameters

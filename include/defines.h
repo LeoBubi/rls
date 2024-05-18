@@ -113,5 +113,12 @@ int sndmsg(int sockfd, const char *msg);
 int sndsig(int sockfd, char code);
 
 
+/**
+ * @brief Print program usage info.
+ * @param prog Program name.
+*/
+void print_usage(const char *prog);
+
+
 
 #endif /* _DEFINES_H */
