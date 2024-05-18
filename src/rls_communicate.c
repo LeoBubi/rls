@@ -28,6 +28,7 @@ rls_communicate(int sockfd)
 #endif
                 }
 
+                sigcode = 0; // reset signal code
                 continue;
             }
 
