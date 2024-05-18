@@ -1,6 +1,7 @@
 #include "includes.h"
 
 
+extern char CONFIG_FILE[PATH_MAX];
 extern char username[UNAMEMAX +1];
 extern int port;
 extern struct in_addr server_ip;
