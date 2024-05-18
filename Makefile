@@ -9,7 +9,7 @@ OBJS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 TARGET = rls
 
-.PHONY: clean
+.PHONY: clean cleaninstall
 
 #---------------------------------------------#
 
@@ -27,3 +27,7 @@ $(TARGET): $(OBJS)
 # Clean up object files, target executable, and obj directory
 clean:
 	rm -rfv $(OBJDIR) $(TARGET)
+
+# Clean up object files after installation
+cleaninstall:
+	@rm -rf $(OBJDIR)
