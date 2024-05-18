@@ -81,6 +81,7 @@ rls_communicate(int sockfd)
 #endif
             }
 
+            // check if server closed connection
             if (strlen(message) == 0) {
                 free(message);
                 printf("Server closed connection.\n");
