@@ -84,5 +84,10 @@ else
 fi
 
 echo "rls has been installed successfully"
+echo ""
+echo "    Default username: $(whoami)"
+echo "    Default port: 513"
+echo ""
+
 exit 0
 
