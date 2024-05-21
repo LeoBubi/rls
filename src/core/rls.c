@@ -52,12 +52,16 @@ main(int argc, char const *argv[])
     int sockfd = rls_connect();
     if (!sockfd)
         main_fail("Cannot connect to server.")
+
+    printf("Connection to server established...\n");
     
     // establish user session
     if (!rls_session(sockfd)) {
         close(sockfd);
         main_fail("Cannot start new terminal session.")
     }
+
+    printf("...started user session.\n\n");
 
     /* ----- communicate with server ----- */
 
