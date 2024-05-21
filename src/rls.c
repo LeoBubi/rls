@@ -17,7 +17,7 @@ void signal_handler(int signo) {
 }
 
 int
-main(int argc, char *argv[])
+main(int argc, char const *argv[])
 {
     // check to make sure we are not running as root
     if (getuid() == 0 || geteuid() == 0)
