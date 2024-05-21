@@ -18,8 +18,7 @@ rdline(char *line, size_t n, int fd)
             return 0;
         }
 
-        else if (rb == 0) 
-        {
+        else if (rb == 0) {
             if (tb == 0)
                 return 0; // no more lines to read
             
