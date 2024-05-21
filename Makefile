@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pedantic -std=c17 -I include
 
 SRCDIR = src
-SRCS = $(wildcard $(SRCDIR)/*.c)
+SRCS = $(wildcard $(SRCDIR)/core/*.c) $(wildcard $(SRCDIR)/io/*.c) $(wildcard $(SRCDIR)/utils/*.c)
 
 OBJDIR = obj
 OBJS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
@@ -14,7 +14,7 @@ TARGET = rls
 #---------------------------------------------#
 
 # Create obj directory if it doesn't exist
-$(shell mkdir -p $(OBJDIR))
+$(shell mkdir -p $(OBJDIR)/core $(OBJDIR)/io $(OBJDIR)/utils)
 
 # Compile source files into object files
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
