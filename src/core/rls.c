@@ -45,11 +45,7 @@ main(int argc, char const *argv[])
     sa.sa_handler = signal_handler;
     
     sigaction(SIGINT,  &sa, NULL);
-    sigaction(SIGTERM, &sa, NULL);
-    sigaction(SIGQUIT, &sa, NULL);
-    sigaction(SIGUSR1, &sa, NULL);
-    sigaction(SIGUSR2, &sa, NULL);
-    
+    // other signal may be added in future
 
     /* ----- connect to server ----- */
 
