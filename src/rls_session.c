@@ -9,7 +9,8 @@ rls_session(int sockfd)
 {
     int ack;   // ACK value from server
 
-    // send username to server
+    /* ----- send username ----- */
+    
     if (!sndmsg(sockfd, username)) {
 #ifdef __DEBUG
         fprintf(stderr, "rls_session: cannot send username.\n");
@@ -37,7 +38,8 @@ rls_session(int sockfd)
         return 0;
     }
 
-    // send password to server
+    /* ----- send password ----- */
+    
     char *password = userinput("Password: ");   // get password from user
     if (!password) {
 #ifdef __DEBUG

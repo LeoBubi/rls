@@ -19,6 +19,8 @@ int config_get(char *key, char *value, size_t n);
 int
 rls_init(int argc, char const **argv)
 {
+    /* ----- configuration file ----- */
+
     // compute configuration file path
     char *home = getenv("HOME");
     if (home == NULL)
@@ -32,12 +34,13 @@ rls_init(int argc, char const **argv)
     // check configuration file readability
     if (access(CONFIG_FILE, R_OK) == -1)
         fun_fail("Configuration file not readable.")
-    
+
+    /* ----- read command line arguments ----- */
+
     username[0] = '\0';     // initialize username to empty string
     port = 0;               // initialize port to 0
     server_ip.s_addr = 0;   // initialize server IP to 0
     
-    // check command line arguments
     for (int i = 1; i < argc; i++)
     {
         // check for username option
@@ -86,6 +89,8 @@ rls_init(int argc, char const **argv)
     // if destination not provided, fail
     if (server_ip.s_addr == 0)
         fun_fail("No destination provided.")
+
+    /* ----- read configuration file ----- */
 
     // if username not provided, get from configuration file
     if (username[0] == '\0')

@@ -9,7 +9,8 @@ extern struct in_addr server_ip;
 int
 rls_connect(void)
 {
-    // create socket
+    /* ----- create socket ----- */
+
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1) {
 #ifdef __DEBUG
@@ -18,7 +19,8 @@ rls_connect(void)
         return 0;
     }
 
-    // connect to server
+    /* ----- connect to server ----- */
+
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
@@ -32,10 +34,12 @@ rls_connect(void)
         return 0;
     }
 
-    // receive ACK from server
+    /* ----- get server ACK ----- */
+
 	// ACK = 0:  connection established
 	// ACK > 0:  connection refused
 	// ACK = -1: communication error
+    
     int ack = getack(sockfd);
     if (ack == -1) {
         close(sockfd);

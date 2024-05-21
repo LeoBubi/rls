@@ -1,7 +1,7 @@
 #include "includes.h"
 
 
-void print_usage(const char *prog)
+void usage(const char *prog)
 {
     printf(
         "Usage:\t%s destination [-l username] [-p port]\n"

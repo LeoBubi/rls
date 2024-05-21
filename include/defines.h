@@ -117,7 +117,14 @@ int sndsig(int sockfd, char code);
  * @brief Print program usage info.
  * @param prog Program name.
 */
-void print_usage(const char *prog);
+void usage(const char *prog);
+
+
+/**
+ * @brief rls initial checks.
+ * @return 1 if successful, 0 otherwise.
+*/
+int rls_checks(void);
 
 
 

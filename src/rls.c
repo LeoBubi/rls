@@ -1,7 +1,7 @@
 #include "includes.h"
 
 
-char CONFIG_FILE[PATH_MAX]; // configuration file path
+char CONFIG_FILE[PATH_MAX];  // configuration file path
 
 char username[UNAMEMAX +1];  // +1 for null terminator
 int port;                    // server port number
@@ -19,32 +19,40 @@ void signal_handler(int signo) {
 int
 main(int argc, char const *argv[])
 {
-    // check to make sure we are not running as root
-    if (getuid() == 0 || geteuid() == 0)
-        main_fail("ERROR: Running as root is unnecessary and hence not allowed.")
+    /* ----- initial checks ----- */
+
+    if (!rls_checks())
+        exit(EXIT_FAILURE);
     
-    // if no arguments provided, print usage
-    if (argc == 1) {
-        print_usage(argv[0]);
+    if (argc == 1) {    // if no arguments provided, print usage
+        usage(argv[0]);
         exit(EXIT_SUCCESS);
     }
 
-    // initialize rls parameters
+    /* ----- initialize rls client ----- */
+
     if (!rls_init(argc, argv))
         main_fail("Failed to initialize.")
     
-    printf("Username: %s\n", username);
-    printf("Server IP: %s\n", inet_ntoa(server_ip));
-    printf("Server port: %d\n", port);
+    printf("Username:\t%s\n", username);
+    printf("Server IP:\t%s\n", inet_ntoa(server_ip));
+    printf("Server port:\t%d\n", port);
 
-    // set signal handler with sigaction
+    /* ----- set signal handlers ----- */
+
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
     sa.sa_handler = signal_handler;
-    sigaction(SIGINT, &sa, NULL);   // SIGINT:  interrupt from keyboard
+    
+    sigaction(SIGINT,  &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
+    sigaction(SIGQUIT, &sa, NULL);
+    sigaction(SIGUSR1, &sa, NULL);
+    sigaction(SIGUSR2, &sa, NULL);
     
 
-    // connect to server
+    /* ----- connect to server ----- */
+
     int sockfd = rls_connect();
     if (!sockfd)
         main_fail("Cannot connect to server.")
@@ -55,10 +63,12 @@ main(int argc, char const *argv[])
         main_fail("Cannot start new terminal session.")
     }
 
-    // communicate with server
+    /* ----- communicate with server ----- */
+
     int rv = rls_communicate(sockfd);
 
-    // close connection
+    /* ----- terminate ----- */
+
     close(sockfd);
     printf("Terminated remote login session.\n");
 
