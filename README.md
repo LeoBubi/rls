@@ -1,11 +1,11 @@
 # rls
-## NAME
+#### NAME
 `rls` - Remote Login Shell
 
-## SYNOPSIS
+#### SYNOPSIS
 `rls destination [-l username] [-p port]`
 
-## DESCRIPTION
+#### DESCRIPTION
 A simple program to start a terminal session on a remote server. `destination` can be either the IP address or the DNS name of the remote server.
 
 Options:
@@ -14,8 +14,8 @@ Options:
 
 -p `port` - Connect to the server on port `port`. This overrides the default which is **login**.
 
-## FILES
+#### FILES
 ~/.config/rls/rls.conf - rls configuration file
 
-## AUTHOR
+#### AUTHOR
 Written by Leonardo Brugnano <brugnano.2128518@studenti.uniroma1.it>.
