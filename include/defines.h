@@ -122,7 +122,7 @@ void usage(const char *prog);
 
 /**
  * @brief rls initial checks.
- * @return 1 if successful, 0 otherwise.
+ * @return 1 if all checks are passed, 0 otherwise
 */
 int rls_checks(void);
 
