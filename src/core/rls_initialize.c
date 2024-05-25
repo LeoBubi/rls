@@ -40,10 +40,14 @@ rls_initialize(int argc, char const **argv)
         {
             if (i+1 >= argc)
                 fun_fail("No username provided.")
-            if (strlen(argv[i+1]) < UNAMEMIN)
-                fun_fail("Username too short.")
-            if (strlen(argv[i+1]) > UNAMEMAX)
-                fun_fail("Username too long.")
+            if (strlen(argv[i+1]) < UNAMEMIN) {
+                fprintf(stderr, "Minimum username length is %d.\n", UNAMEMIN);
+                return 0;
+            }
+            if (strlen(argv[i+1]) > UNAMEMAX) {
+                fprintf(stderr, "Maximum username length is %d.\n", UNAMEMAX);
+                return 0;
+            }
             
             strcpy(username, argv[++i]);
         }
@@ -55,23 +59,31 @@ rls_initialize(int argc, char const **argv)
                 fun_fail("No port provided.")
             if (!isint(argv[i+1]))
                 fun_fail("Port number must be an integer.")
-            if (atoi(argv[i+1]) < PORTMIN)
-                fun_fail("Port number too low.")
-            if (atoi(argv[i+1]) > PORTMAX)
-                fun_fail("Port number too high.")
+            if (atoi(argv[i+1]) < PORTMIN) {
+                fprintf(stderr, "Minimum port number is %d.\n", PORTMIN);
+                return 0;
+            }
+            if (atoi(argv[i+1]) > PORTMAX) {
+                fprintf(stderr, "Maximum port number is %d.\n", PORTMAX);
+                return 0;
+            }
             
             port = atoi(argv[++i]);
         }
 
-        else if (argv[i][0] == '-')
-            fun_fail("Invalid option.")
+        else if (argv[i][0] == '-') {
+            fprintf(stderr, "%s: invalid option.\n", argv[i]);
+            return 0;
+        }
 
-        // check for detination (IP address or hostname) argument
+        // check for detination (IP address or DNS name) argument
         else
         {
             struct hostent *host = gethostbyname(argv[i]);
-            if (host == NULL)
-                fun_fail("Invalid hostname or IP address.")
+            if (host == NULL) {
+                fprintf(stderr, "%s: invalid IP address or DNS name.\n", argv[i]);
+                return 0;
+            }
             
             server_ip = *(struct in_addr *)host->h_addr_list[0];
         }
