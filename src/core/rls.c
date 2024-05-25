@@ -1,8 +1,6 @@
 #include "includes.h"
 
 
-char CONFIG_FILE[PATH_MAX];  // configuration file path
-
 char username[UNAMEMAX +1];  // +1 for null terminator
 int port;                    // server port number
 struct in_addr server_ip;    // server IP address
@@ -24,27 +22,34 @@ main(int argc, char const *argv[])
     /* ----- initialize rls client ----- */
 
     if (!rls_initialize(argc, argv))
-        main_fail("Failed to initialize.")
-    
-    printf("Username:\t%s\n", username);
-    printf("Server IP:\t%s\n", inet_ntoa(server_ip));
-    printf("Server port:\t%d\n", port);
+        main_fail("Initialization failure.")
+
+    printf(
+        "\n"
+        "Username:\t%s\n"
+        "Server IP:\t%s\n"
+        "Server port:\t%d\n"
+        "\n",
+        username, inet_ntoa(server_ip), port
+    );
 
     /* ----- connect to server ----- */
 
     int sockfd = rls_connect();
-    if (!sockfd)
-        main_fail("Cannot connect to server.")
-
-    printf("Connection to server established...\n");
-    
-    // establish user session
-    if (!rls_session(sockfd)) {
-        close(sockfd);
-        main_fail("Cannot start new terminal session.")
+    if (!sockfd) {
+        fprintf(stderr, "Unable to connect to server at %s:%d.\n", inet_ntoa(server_ip), port);
+        exit(EXIT_FAILURE);
     }
 
-    printf("...started user session.\n\n");
+    printf("Established connection to server.\n");
+    
+    // establish remote login session
+    if (!rls_session(sockfd)) {
+        close(sockfd);
+        main_fail("Unable to start remote login session.")
+    }
+
+    printf("Started remote login session.\n\n");
 
     /* ----- communicate with server ----- */
 

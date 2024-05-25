@@ -12,7 +12,8 @@ void usage(const char *prog)
         "\n"
         "\t-l username:\tUsername to login with\n"
         "\t-p port:\tServer port number\n"
-        "\n"
-        , prog);
+        "\n",
+        prog
+    );
     return;
 }
