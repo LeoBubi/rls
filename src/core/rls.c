@@ -23,7 +23,7 @@ main(int argc, char const *argv[])
 
     /* ----- initialize rls client ----- */
 
-    if (!rls_init(argc, argv))
+    if (!rls_initialize(argc, argv))
         main_fail("Failed to initialize.")
     
     printf("Username:\t%s\n", username);

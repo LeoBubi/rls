@@ -25,7 +25,7 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
  * @param argv Command line arguments.
  * @return 1 if successful, 0 otherwise.
 */
-int rls_init(int argc, char const **argv);
+int rls_initialize(int argc, char const **argv);
 
 
 /**

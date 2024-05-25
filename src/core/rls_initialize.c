@@ -17,7 +17,7 @@ int config_get(char *key, char *value, size_t n);
 
 
 int
-rls_init(int argc, char const **argv)
+rls_initialize(int argc, char const **argv)
 {
     /* ----- configuration file ----- */
 
