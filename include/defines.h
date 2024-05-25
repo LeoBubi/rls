@@ -127,5 +127,15 @@ void usage(const char *prog);
 int rls_checks(void);
 
 
+/**
+ * @brief Get configuration value from configuration file.
+ * @param key Configuration key.
+ * @param value Configuration value buffer.
+ * @param n Size of the value buffer.
+ * @return 1 if successful, 0 otherwise.
+*/
+int config_get(char *key, char *value, size_t n);
+
+
 
 #endif /* _DEFINES_H */
