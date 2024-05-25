@@ -1,12 +1,29 @@
 #include "includes.h"
 
 
-extern volatile sig_atomic_t sigcode;
+volatile sig_atomic_t sigcode;
+
+// signal handler
+void signal_handler(int signo) { 
+    sigcode = signo;
+    return;
+}
 
 
 int
 rls_communicate(int sockfd)
 {
+    /* ----- set signal handlers ----- */
+
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(sa));
+    sa.sa_handler = signal_handler;
+    
+    sigaction(SIGINT,  &sa, NULL);
+    // other signal may be added in future
+
+    /* ----- communication with server ----- */
+
     fd_set __readfds;
     FD_ZERO(&__readfds);
     FD_SET(STDIN_FILENO, &__readfds);

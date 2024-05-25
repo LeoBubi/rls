@@ -8,14 +8,6 @@ int port;                    // server port number
 struct in_addr server_ip;    // server IP address
 
 
-volatile sig_atomic_t sigcode = 0; // signal code
-
-// signal handler
-void signal_handler(int signo) { 
-    sigcode = signo;
-    return;
-}
-
 int
 main(int argc, char const *argv[])
 {
@@ -37,15 +29,6 @@ main(int argc, char const *argv[])
     printf("Username:\t%s\n", username);
     printf("Server IP:\t%s\n", inet_ntoa(server_ip));
     printf("Server port:\t%d\n", port);
-
-    /* ----- set signal handlers ----- */
-
-    struct sigaction sa;
-    memset(&sa, 0, sizeof(sa));
-    sa.sa_handler = signal_handler;
-    
-    sigaction(SIGINT,  &sa, NULL);
-    // other signal may be added in future
 
     /* ----- connect to server ----- */
 
