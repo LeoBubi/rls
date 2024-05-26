@@ -49,7 +49,7 @@ main(int argc, char const *argv[])
         main_fail("Unable to start remote login session.")
     }
 
-    printf("Started remote login session.\n\n");
+    printf("\n### Started remote login session. ###\n\n");
 
     /* ----- communicate with server ----- */
 

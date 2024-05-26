@@ -1,7 +1,7 @@
 #include "includes.h"
 
 
-volatile sig_atomic_t sigcode;
+volatile sig_atomic_t sigcode = 0;  // '= 0' for portability
 
 // signal handler
 void signal_handler(int signo) { 
@@ -36,7 +36,7 @@ rls_communicate(int sockfd)
         if (select(sockfd +1, &readfds, NULL, NULL, NULL) == -1) 
         {
             if (errno == EINTR && sigcode) {        // if non fatal signal received
-                if (!sndsig(sockfd, sigcode)) {    // send it to server
+                if (!sndsig(sockfd, sigcode)) {     // send it to server
 #ifdef __DEBUG
                     fprintf(stderr, "rls_communicate: cannot send signal to server.\n");
                     return 0;
@@ -46,15 +46,9 @@ rls_communicate(int sockfd)
                 }
 
                 sigcode = 0; // reset signal code
-                continue;
             }
 
-#ifdef __DEBUG
-            perror("rls_communicate: select");
-            return 0;
-#else
-            fun_fail("Communication error.")
-#endif
+            continue;
         }
 
         // IF user input ready

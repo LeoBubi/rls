@@ -36,9 +36,8 @@ rls_connect(void)
 
     /* ----- get server ACK ----- */
 
-	// ACK = 0:  connection established
-	// ACK > 0:  connection refused
-	// ACK = -1: communication error
+	// ACK = 20: server ok: ready to receive username
+    // ACK = 50: internal server error
     
     int ack = getack(sockfd);
     if (ack == -1) {
@@ -46,13 +45,10 @@ rls_connect(void)
         return 0;
     }
 
-    if (ack > 0) {
-#ifdef __DEBUG
-        fprintf(stderr, "rls_connect: server ACK = %d\n", ack);
-#endif
-        close(sockfd);
+    if (ack == 50)
         return 0;
-    }
+    
+    // ACK = 20 -> connection established
     
     return sockfd;
 }
