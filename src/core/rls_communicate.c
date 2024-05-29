@@ -29,6 +29,8 @@ rls_communicate(int sockfd)
     FD_SET(STDIN_FILENO, &__readfds);
     FD_SET(sockfd, &__readfds);
 
+    int ack;   // server ACK
+
     while (1)
     {
         // wait for user input or server message
@@ -77,6 +79,26 @@ rls_communicate(int sockfd)
             }
 
             free(input);
+
+            // get server ACK
+            // 20: OK
+            // 50: server error
+            ack = getack(sockfd);
+            if (ack == -1) {
+#ifdef __DEBUG
+                fprintf(stderr, "rls_communicate: cannot receive server ACK.\n");
+                return 0;
+#else
+                fun_fail("Communication error.")
+#endif
+            }
+
+            if (ack == 50) {
+                printf("Server error.\n");
+                return 0;
+            }
+
+            // ACK = 20 -> OK
         }
 
         // IF server message ready

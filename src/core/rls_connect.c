@@ -36,8 +36,8 @@ rls_connect(void)
 
     /* ----- get server ACK ----- */
 
-	// ACK = 20: server ok: ready to receive username
-    // ACK = 50: internal server error
+	// 20: server ok: ready to receive username
+    // 50: internal server error
     
     int ack = getack(sockfd);
     if (ack == -1) {

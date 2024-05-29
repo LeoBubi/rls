@@ -21,9 +21,9 @@ rls_session(int sockfd)
     }
 
     // receive ACK from server
-    // ACK = 20: valid username
-    // ACK = 40: user doesn't exist or illegal
-    // ACK = 50: internal server error
+    // 20: valid username
+    // 40: user doesn't exist or illegal
+    // 50: internal server error
     ack = getack(sockfd);
     if (ack == -1) {
 #ifdef __DEBUG
@@ -72,10 +72,10 @@ rls_session(int sockfd)
         free(password);
 
         // receive ACK from server
-        // ACK = 20: valid password
-        // ACK = 40: incorrect password, try again
-        // ACK = 41: incorrect password, access denied
-        // ACK = 50: internal server error
+        // 20: valid password
+        // 40: incorrect password, try again
+        // 41: incorrect password, access denied
+        // 50: internal server error
         ack = getack(sockfd);
         if (ack == -1) {
 #ifdef __DEBUG
