@@ -5,12 +5,18 @@
 
 
 char* 
-userinput(char* prompt) {
+userinput(char* prompt) 
+{
+    // print the prompt if it is not NULL
     if (prompt != NULL) {
         printf("%s", prompt);
     }
 
-    char *input = (char*)malloc(UIN_INITBUFSIZ);
+    size_t input_maxsize = UIN_INITBUFSIZ;  // initial size of input buffer
+    size_t input_size    = 0;               // initial size of input
+
+    // allocate initial buffer for the input string
+    char *input = (char*)malloc(input_maxsize);
     if (!input) {
 #ifdef __DEBUG
         perror("userinput: malloc");
@@ -18,14 +24,9 @@ userinput(char* prompt) {
         return NULL;
     }
 
-    size_t input_maxsize = UIN_INITBUFSIZ;  // current maximum size of input
-    size_t input_size    = 0;               // current size of input
-
     int c;
     while ((c = getchar()) != '\n' && c != EOF) 
     {
-        input[input_size++] = c;
-
         if (input_size == input_maxsize)
         {
             input_maxsize *= 2;
@@ -39,6 +40,8 @@ userinput(char* prompt) {
             }
             input = tmp;
         }
+
+        input[input_size++] = c;
     }
 
     input[input_size] = '\0'; // null-terminate the input string
