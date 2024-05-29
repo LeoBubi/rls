@@ -15,8 +15,8 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 #define main_fail(msg) { fprintf(stderr, "%s\n", msg); exit(EXIT_FAILURE); }
 #define fun_fail(msg)  { fprintf(stderr, "%s\n", msg); return 0; }
 
-#define DATAMSG_TYPE 0  // message type
-#define CTRLMSG_TYPE 1  // control type
+#define TXTMSG 0  // text message type code
+#define SIGMSG 1  // signal message type code
 
 
 /**
@@ -105,12 +105,12 @@ int sndmsg(int sockfd, const char *msg);
 
 
 /**
- * @brief Send control message to server.
+ * @brief Send signal to server.
  * @param sockfd Socket file descriptor.
- * @param code Control message code.
+ * @param signo Signal number.
  * @return 1 if successful, 0 otherwise.
 */
-int sndsig(int sockfd, char code);
+int sndsig(int sockfd, char signo);
 
 
 /**

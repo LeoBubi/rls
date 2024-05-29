@@ -2,10 +2,11 @@
 
 
 int
-sndsig(int sockfd, char code)
+sndsig(int sockfd, char signo)
 {
+    char type = SIGMSG;
+
     // send message type to server
-    char type = CTRLMSG_TYPE;
     if (write(sockfd, &type, sizeof(type)) == -1) {
 #ifdef __DEBUG
         perror("sndsig: send message type: write");
@@ -13,10 +14,10 @@ sndsig(int sockfd, char code)
         return 0;
     }
 
-    // send control code to server
-    if (write(sockfd, &code, sizeof(code)) == -1) {
+    // send signal number to server
+    if (write(sockfd, &signo, sizeof(signo)) == -1) {
 #ifdef __DEBUG
-        perror("sndsig: send control code: write");
+        perror("sndsig: send control signo: write");
 #endif
         return 0;
     }

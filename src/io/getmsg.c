@@ -16,7 +16,7 @@ getmsg(int sockfd)
         return NULL;
     }
 
-	// if server closed connection
+	// if server closed connection return empty string
 	if (rb == 0) {
 		char *msg = (char*)malloc(1);
 		if (!msg) {

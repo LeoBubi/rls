@@ -4,10 +4,10 @@
 int
 sndmsg(int sockfd, const char *msg)
 {
+    char   type = TXTMSG;
     size_t size = strlen(msg) +1; // include null-terminator
 
     // send message type to server
-    char type = DATAMSG_TYPE;
     if (write(sockfd, &type, sizeof(type)) == -1) {
 #ifdef __DEBUG
         perror("sndmsg: send message type: write");
