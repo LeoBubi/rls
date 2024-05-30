@@ -1,11 +1,11 @@
 #include "includes.h"
 
 
-int
+ack_t
 getack(int sockfd)
 {
     // receive ack from server
-    char ack;
+    ack_t ack;
     if (read(sockfd, &ack, sizeof(ack)) == -1) {
 #ifdef __DEBUG
         perror("getack: read");
@@ -13,5 +13,5 @@ getack(int sockfd)
         return -1;
     }
 
-    return (int)ack;
+    return ack;
 }

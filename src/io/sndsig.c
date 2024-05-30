@@ -2,7 +2,7 @@
 
 
 int
-sndsig(int sockfd, char signo)
+sndsig(int sockfd, sig_t signo)
 {
     char type = SIGMSG;
 
