@@ -67,6 +67,25 @@ rls_communicate(int sockfd)
                 return 0;
             }
 
+            // check for control commands
+            if (input[0] == '~') 
+            {
+                // if quit command
+                if (strcmp(input, "~q") == 0) {
+                    free(input);
+                    if (!sndctl(sockfd, CTLQUIT)) {
+#ifdef __DEBUG
+                        fprintf(stderr, "rls_communicate: cannot send quit command.\n");
+                        return 0;
+#else
+                        fun_fail("Communication error.")
+#endif
+                    }
+                    return 1;
+                }
+                    
+            }
+
             // send user input to server
             if (!sndmsg(sockfd, input)) {
                 free(input);

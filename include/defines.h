@@ -17,6 +17,9 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 
 #define TXTMSG 0  // text message type code
 #define SIGMSG 1  // signal message type code
+#define CTLMSG 2  // control message type code
+
+#define CTLQUIT 0  // quit command code
 
 
 /**
@@ -111,6 +114,15 @@ int sndmsg(int sockfd, const char *msg);
  * @return 1 if successful, 0 otherwise.
 */
 int sndsig(int sockfd, char signo);
+
+
+/**
+ * @brief Send control command to server.
+ * @param sockfd Socket file descriptor.
+ * @param command Control command code.
+ * @return 1 if successful, 0 otherwise.
+*/
+int sndctl(int sockfd, char command);
 
 
 /**
