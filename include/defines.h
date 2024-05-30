@@ -23,7 +23,7 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 
 
 /**
- * @brief Initial checks and setup.
+ * @brief rls setup.
  * @param argc Command line argument count.
  * @param argv Command line arguments.
  * @return 1 if successful, 0 otherwise.
