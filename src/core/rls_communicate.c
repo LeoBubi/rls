@@ -83,7 +83,9 @@ rls_communicate(int sockfd)
                     }
                     return 1;
                 }
-                    
+
+				fprintf(stderr, "%s: invalid command.", input);
+				continue;
             }
 
             // send user input to server
