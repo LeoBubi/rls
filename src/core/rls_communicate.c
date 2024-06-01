@@ -89,7 +89,7 @@ rls_communicate(int sockfd)
             }
 
             // send user input to server
-            if (!sndmsg(sockfd, input)) {
+            if (!sndtxt(sockfd, input)) {
                 free(input);
 #ifdef __DEBUG
                 fprintf(stderr, "rls_communicate: cannot send user input.\n");

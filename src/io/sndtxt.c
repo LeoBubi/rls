@@ -2,7 +2,7 @@
 
 
 int
-sndmsg(int sockfd, const char *msg)
+sndtxt(int sockfd, const char *msg)
 {
     char   type = TXTMSG;
     size_t size = strlen(msg) +1; // include null-terminator
@@ -10,7 +10,7 @@ sndmsg(int sockfd, const char *msg)
     // send message type to server
     if (write(sockfd, &type, sizeof(type)) == -1) {
 #ifdef __DEBUG
-        perror("sndmsg: send message type: write");
+        perror("sndtxt: send message type: write");
 #endif
         return 0;
     }
@@ -18,7 +18,7 @@ sndmsg(int sockfd, const char *msg)
     // send message size to server
     if (write(sockfd, &size, sizeof(size)) == -1) {
 #ifdef __DEBUG
-        perror("sndmsg: send message size: write");
+        perror("sndtxt: send message size: write");
 #endif
         return 0;
     }
@@ -26,7 +26,7 @@ sndmsg(int sockfd, const char *msg)
     // send message to server
     if (write(sockfd, msg, size) == -1) {
 #ifdef __DEBUG
-        perror("sndmsg: send message: write");
+        perror("sndtxt: send message: write");
 #endif
         return 0;
     }

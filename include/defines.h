@@ -103,12 +103,12 @@ ack_t getack(int sockfd);
 
 
 /**
- * @brief Send data message to server.
+ * @brief Send text message to server.
  * @param sockfd Socket file descriptor.
  * @param msg Message string.
  * @return 1 if successful, 0 otherwise.
 */
-int sndmsg(int sockfd, const char *msg);
+int sndtxt(int sockfd, const char *msg);
 
 
 /**
