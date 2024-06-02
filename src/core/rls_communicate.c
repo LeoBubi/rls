@@ -69,6 +69,12 @@ rls_communicate(int sockfd)
                 return 0;
             }
 
+            // check for empty input
+            if (strlen(input) == 0) {
+                free(input);
+                continue;
+            }
+
             // check for control commands
             if (input[0] == '~') 
             {
