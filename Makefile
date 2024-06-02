@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pedantic -std=c17 -I include
+CFLAGS = -Wall -Wextra -Werror -pedantic -std=c17 -I include -D __DEBUG
 
 SRCDIR = src
 SRCS = $(wildcard $(SRCDIR)/core/*.c) $(wildcard $(SRCDIR)/io/*.c) $(wildcard $(SRCDIR)/utils/*.c)
