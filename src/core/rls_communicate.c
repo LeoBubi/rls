@@ -161,6 +161,7 @@ rls_communicate(int sockfd)
             }
 
             printf("%s", message);
+            fflush(stdout);
             free(message);
         }
     }
