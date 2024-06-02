@@ -4,7 +4,8 @@
 char*
 getmsg(int sockfd)
 {
-    // receive message size from server
+    /* ----- receive message size from server ----- */
+    
     ssize_t rb;
     size_t size;
 
@@ -30,7 +31,8 @@ getmsg(int sockfd)
 		return msg;
 	}
 
-    // receive message from server
+    /* ----- receive message from server ----- */
+
     char *msg = (char*)malloc(size);
     if (!msg) {
 #ifdef __DEBUG
