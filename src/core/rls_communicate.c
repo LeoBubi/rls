@@ -48,6 +48,21 @@ rls_communicate(int sockfd)
 #endif
                 }
 
+                ack = getack(sockfd);
+                if (ack == -1) {
+#ifdef __DEBUG
+                    fprintf(stderr, "rls_communicate: cannot receive server ACK.\n");
+                    return 0;
+#else
+                    fun_fail("Communication error.")
+#endif
+                }
+
+                if (ack == 50)
+                    fun_fail("Server error.")
+                
+                // ack = 20 -> OK
+
                 sigcode = 0; // reset signal code
             }
 
