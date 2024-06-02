@@ -11,7 +11,7 @@ extern struct in_addr server_ip;
 int
 rls_initialize(int argc, char const **argv)
 {
-    /* ----- configuration file ----- */
+    /* ----- configuration file checks ----- */
 
     // compute configuration file path
     char *home = getenv("HOME");

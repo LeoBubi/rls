@@ -6,7 +6,8 @@ sndsig(int sockfd, sig_t signo)
 {
     char type = SIGMSG;
 
-    // send message type to server
+    /* ----- send message type to server ----- */
+
     if (write(sockfd, &type, sizeof(type)) == -1) {
 #ifdef __DEBUG
         perror("sndsig: send message type: write");
@@ -14,7 +15,8 @@ sndsig(int sockfd, sig_t signo)
         return 0;
     }
 
-    // send signal number to server
+    /* ----- send signal number to server ----- */
+    
     if (write(sockfd, &signo, sizeof(signo)) == -1) {
 #ifdef __DEBUG
         perror("sndsig: send control signo: write");
