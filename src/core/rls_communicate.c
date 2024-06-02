@@ -33,7 +33,8 @@ rls_communicate(int sockfd)
 
     while (1)
     {
-        // wait for user input or server message
+        /* ----- wait for user input or server message ----- */
+
         fd_set readfds = __readfds;
         if (select(sockfd +1, &readfds, NULL, NULL, NULL) == -1) 
         {
@@ -53,7 +54,8 @@ rls_communicate(int sockfd)
             continue;
         }
 
-        // IF user input ready
+        /* ----- user input ----- */
+
         if (FD_ISSET(STDIN_FILENO, &readfds))
         {
             // get user input
@@ -122,7 +124,8 @@ rls_communicate(int sockfd)
             // ACK = 20 -> OK
         }
 
-        // IF server message ready
+        /* ----- server message ----- */
+        
         else if (FD_ISSET(sockfd, &readfds))
         {
             char *message = getmsg(sockfd);
