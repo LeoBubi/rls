@@ -47,11 +47,10 @@ rls_session(int sockfd)
     // ACK = 20 -> username accepted
 
     /* ----- send password ----- */
+
     while (1)
     {
-        printf("\nPassword: ");
-    
-        char *password = userinput("Password: ");   // get password from user
+        char *password = userinput("\nPassword: ");   // get password from user
         if (!password) {
 #ifdef __DEBUG
                 fprintf(stderr, "rls_session: userinput failed.\n");
