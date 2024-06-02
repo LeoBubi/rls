@@ -51,12 +51,12 @@ main(int argc, char const *argv[])
 
     printf(
         "\n"
-        "#####################################"
-        "### Started remote login session. ###"
-        "### Type ~q to quit.              ###"
-        "### Type ~h for help.             ###"
-        "#####################################"
-        "\n\n"
+        "#####################################\n"
+        "### Started remote login session. ###\n"
+        "### Type ~q to quit.              ###\n"
+        "### Type ~h for help.             ###\n"
+        "#####################################\n"
+        "\n"
     );
 
     /* ----- communicate with server ----- */
