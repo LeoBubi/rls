@@ -11,7 +11,7 @@ rls_session(int sockfd)
 
     /* ----- send username ----- */
     
-    if (!sndtxt(sockfd, username)) {
+    if (!sndtxt(sockfd, username, 0)) {
 #ifdef __DEBUG
         fprintf(stderr, "rls_session: cannot send username.\n");
         return 0;
@@ -60,7 +60,7 @@ rls_session(int sockfd)
                 return 0;
         }
 
-        if (!sndtxt(sockfd, password)) {
+        if (!sndtxt(sockfd, password, 0)) {
 #ifdef __DEBUG
                 fprintf(stderr, "rls_session: cannot send password.\n");
 #endif

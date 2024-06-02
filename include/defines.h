@@ -106,9 +106,10 @@ ack_t getack(int sockfd);
  * @brief Send text message to server.
  * @param sockfd Socket file descriptor.
  * @param msg Message string.
+ * @param nl non-zero to add newline at the end of the message.
  * @return 1 if successful, 0 otherwise.
 */
-int sndtxt(int sockfd, const char *msg);
+int sndtxt(int sockfd, char *msg, int nl);
 
 
 /**

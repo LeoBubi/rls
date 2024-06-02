@@ -27,7 +27,7 @@ userinput(char* prompt)
     int c;
     while ((c = getchar()) != '\n' && c != EOF) 
     {
-        if (input_size == input_maxsize)
+        if (input_size == input_maxsize-1)  // -1 to guarantee eventual newline and null-terminator
         {
             input_maxsize *= 2;
             char *tmp = (char*)realloc(input, input_maxsize);
