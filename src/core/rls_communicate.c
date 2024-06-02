@@ -166,7 +166,7 @@ rls_communicate(int sockfd)
                 return 1;
             }
 
-            printf("%s\n", message);
+            printf("%s", message);
             free(message);
         }
     }
