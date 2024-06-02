@@ -86,7 +86,7 @@ rls_communicate(int sockfd)
                     return 1;
                 }
 
-				fprintf(stderr, "%s: invalid command.", input);
+				fprintf(stderr, "%s: invalid command.\n", input);
 				continue;
             }
 
