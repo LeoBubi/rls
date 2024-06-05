@@ -30,6 +30,15 @@ userinput(char* prompt)
     int c;
     while ((c = getchar()) != '\n' && c != EOF) 
     {
+        // Check for Ctrl+L (clear screen)
+        if (c == 12) {  // Ctrl+L
+            printf("\033[H\033[J");
+            if (prompt != NULL) {
+                printf("%s", prompt);
+            }
+            continue;
+        }
+
         if (input_size == input_maxsize-1)  // -1 to guarantee eventual newline and null-terminator
         {
             input_maxsize *= 2;
