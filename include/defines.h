@@ -34,7 +34,7 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
  * @param argv Command line arguments.
  * @return 1 if successful, 0 otherwise.
 */
-int rls_initialize(int argc, char const **argv);
+int rls_init(int argc, char const **argv);
 
 
 /**
@@ -67,7 +67,7 @@ int rls_connect(void);
  * @param sockfd Socket file descriptor.
  * @return 1 if successful, 0 otherwise.
 */
-int rls_session(int sockfd);
+int rls_auth(int sockfd);
 
 
 /**
@@ -75,7 +75,7 @@ int rls_session(int sockfd);
  * @param sockfd Socket file descriptor.
  * @return 1 if successful, 0 otherwise.
 */
-int rls_communicate(int sockfd);
+int rls_session(int sockfd);
 
 
 /**
@@ -141,7 +141,7 @@ void usage(const char *prog);
  * @brief rls initial checks.
  * @return 1 if all checks are passed, 0 otherwise
 */
-int rls_checks(void);
+int rls_check(void);
 
 
 /**

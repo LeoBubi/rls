@@ -9,7 +9,7 @@ extern struct in_addr server_ip;
 
 
 int
-rls_initialize(int argc, char const **argv)
+rls_init(int argc, char const **argv)
 {
     /* ----- configuration file checks ----- */
 

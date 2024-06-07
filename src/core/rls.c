@@ -19,7 +19,7 @@ main(int argc, char const *argv[])
 {
     /* ----- initial checks ----- */
 
-    if (!rls_checks())
+    if (!rls_check())
         exit(EXIT_FAILURE);
     
     if (argc == 1) {    // if no arguments provided, print usage
@@ -29,7 +29,7 @@ main(int argc, char const *argv[])
 
     /* ----- initialize rls client ----- */
 
-    if (!rls_initialize(argc, argv))
+    if (!rls_init(argc, argv))
         main_fail("Initialization failure.")
 
     printf(
@@ -79,7 +79,7 @@ main(int argc, char const *argv[])
     printf("Established connection to server.\n");
     
     /* ----- establish remote login session ----- */
-    if (!rls_session(sockfd)) {
+    if (!rls_auth(sockfd)) {
         close(sockfd);
         main_fail("Unable to start remote login session.")
     }
@@ -95,7 +95,7 @@ main(int argc, char const *argv[])
 
     /* ----- communicate with server ----- */
 
-    int rv = rls_communicate(sockfd);
+    int rv = rls_session(sockfd);
 
     /* ----- terminate ----- */
 

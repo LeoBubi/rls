@@ -1,110 +1,160 @@
 #include "includes.h"
 
 
-extern char username[UNAMEMAX +1];
+volatile sig_atomic_t sigcode = 0;  // '= 0' for portability
+
+// signal handler
+void signal_handler(int signo) { 
+    sigcode = signo;
+    return;
+}
 
 
 int
 rls_session(int sockfd)
 {
-    rlsack_t ack;   // ACK value from server
+    /* ----- set signal handlers ----- */
 
-    /* ----- send username ----- */
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(sa));
+    sa.sa_handler = signal_handler;
     
-    if (!sndtxt(sockfd, username)) {
-#ifdef __DEBUG
-        fprintf(stderr, "rls_session: cannot send username.\n");
-        return 0;
-#else
-        fun_fail("Communication error.")
-#endif
-    }
+    sigaction(SIGINT,  &sa, NULL);
+    // other signal may be added in future
 
-    // receive ACK from server
-    // 20: valid username
-    // 40: user doesn't exist or illegal
-    // 50: internal server error
-    ack = getack(sockfd);
-    if (ack == -1) {
-#ifdef __DEBUG
-        fprintf(stderr, "rls_session: cannot receive username ack.\n");
-        return 0;
-#else
-        fun_fail("Communication error.")
-#endif
-    }
+    /* ----- communication with server ----- */
 
-    if (ack == 40) {
-        printf("User doesn't exist or illegal.\n");
-        return 0;
-    }
+    fd_set __readfds;
+    FD_ZERO(&__readfds);
+    FD_SET(STDIN_FILENO, &__readfds);
+    FD_SET(sockfd, &__readfds);
 
-    if (ack == 50) {
-        fprintf(stderr, "Server error.\n");
-        return 0;
-    }
-
-    // ACK = 20 -> username accepted
-
-    /* ----- send password ----- */
-
-    char password[PASSMAX+1];
+    rlsack_t ack;   // server ACK
 
     while (1)
     {
-        printf("\nPassword: ");
-        fflush(stdout);
+        /* ----- wait for user input or server message ----- */
 
-        memset(password, '\0', sizeof(password));
-
-        for (int i = 0; i < PASSMAX; i++) {
-            password[i] = getchar();
-            if (password[i] == '\n' || password[i] == '\x04') { // '\x04' is EOF
-                password[i] = '\0';
-                break;
-            }
-        }
-
-        if (!sndtxt(sockfd, password)) {
+        fd_set readfds = __readfds;
+        if (select(sockfd +1, &readfds, NULL, NULL, NULL) == -1) 
+        {
+            if (errno == EINTR && sigcode) {        // if non fatal signal received
+                if (!sndsig(sockfd, sigcode)) {     // send it to server
 #ifdef __DEBUG
-                fprintf(stderr, "rls_session: cannot send password.\n");
+                    fprintf(stderr, "rls_session: cannot send signal to server.\n");
+                    return 0;
+#else
+                    fun_fail("Communication error.")
 #endif
-                return 0;
+                }
+
+                ack = getack(sockfd);
+                if (ack == -1) {
+#ifdef __DEBUG
+                    fprintf(stderr, "rls_session: cannot receive server ACK.\n");
+                    return 0;
+#else
+                    fun_fail("Communication error.")
+#endif
+                }
+
+                if (ack == 50)
+                    fun_fail("Server error.")
+                
+                if (ack == 40)
+                    fprintf(stderr, "Invalid signal.\n");
+                
+                // ack = 20 -> OK
+
+                sigcode = 0; // reset signal code
+            }
+
+            continue;
         }
 
-        // receive ACK from server
-        // 20: valid password
-        // 40: incorrect password, try again
-        // 41: incorrect password, access denied
-        // 50: internal server error
-        ack = getack(sockfd);
-        if (ack == -1) {
+        /* ----- user input ----- */
+
+        if (FD_ISSET(STDIN_FILENO, &readfds))
+        {
+            // read one character at a time
+            int c = getchar();
+
+            // check if control command
+            if (c == '~')
+            {
+                // read control command
+                int cmd = getchar();
+                if (cmd == 'q') {
+                    if (!sndctl(sockfd, CTLQUIT)) {
 #ifdef __DEBUG
-                fprintf(stderr, "rls_session: cannot receive password ack.\n");
+                        fprintf(stderr, "rls_session: cannot send quit command.\n");
+                        return 0;
+#else
+                        fun_fail("Communication error.")
+#endif
+                    }
+                    return 1;
+                }
+
+                fprintf(stderr, "Invalid command.\n");
+                continue;
+            }
+
+            // send character to server
+            if (!sndchr(sockfd, c)) {
+#ifdef __DEBUG
+                fprintf(stderr, "rls_session: cannot send user input.\n");
                 return 0;
 #else
                 fun_fail("Communication error.")
 #endif
+            }
+
+            // receive server ACK
+            ack = getack(sockfd);
+            if (ack == -1) {
+#ifdef __DEBUG
+                fprintf(stderr, "rls_session: cannot receive server ACK.\n");
+                return 0;
+#else
+                fun_fail("Communication error.")
+#endif
+            }
+
+            if (ack == 50) {
+                printf("Server error.\n");
+                return 1;
+            }
+
+            if (ack == 40) {
+                printf("Malformed data.\n");
+                continue;
+            }
+
+            // ACK = 20 -> OK
         }
 
-        if (ack == 20)
-            break;
+        /* ----- server message ----- */
+        
+        else if (FD_ISSET(sockfd, &readfds))
+        {
+            char c = getchr(sockfd);
+            if (c == -1) {
+#ifdef __DEBUG
+                fprintf(stderr, "rls_session: cannot receive server message.\n");
+                return 0;
+#else
+                fun_fail("Communication error.")
+#endif
+            }
 
-        if (ack == 40) {
-            printf("Access denied, please try again.\n");
-            continue;
-        }
+            // check if server closed connection
+            if (c == 0) {
+                printf("Server closed connection.\n");
+                return 1;
+            }
 
-        if (ack == 41) {
-            printf("Too many attempts, access denied.\n");
-            return 0;
-        }
-
-        if (ack == 50) {
-            fprintf(stderr, "Server error.\n");
-            return 0;
+            write(STDOUT_FILENO, &c, 1);
         }
     }
-
-    return 1;  // user session established
 }

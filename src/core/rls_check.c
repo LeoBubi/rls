@@ -2,7 +2,7 @@
 
 
 int
-rls_checks(void)
+rls_check(void)
 {
     /* ----- if root fail ----- */
 
