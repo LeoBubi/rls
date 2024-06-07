@@ -36,39 +36,10 @@ rls_session(int sockfd)
         /* ----- wait for user input or server message ----- */
 
         fd_set readfds = __readfds;
-        if (select(sockfd +1, &readfds, NULL, NULL, NULL) == -1) 
-        {
-            if (errno == EINTR && sigcode) {        // if non fatal signal received
-                if (!sndsig(sockfd, sigcode)) {     // send it to server
+        if (select(sockfd +1, &readfds, NULL, NULL, NULL) == -1) {
 #ifdef __DEBUG
-                    fprintf(stderr, "rls_session: cannot send signal to server.\n");
-                    return 0;
-#else
-                    fun_fail("Communication error.")
+            perror("rls_session: select");
 #endif
-                }
-
-                ack = getack(sockfd);
-                if (ack == -1) {
-#ifdef __DEBUG
-                    fprintf(stderr, "rls_session: cannot receive server ACK.\n");
-                    return 0;
-#else
-                    fun_fail("Communication error.")
-#endif
-                }
-
-                if (ack == 50)
-                    fun_fail("Server error.")
-                
-                if (ack == 40)
-                    fprintf(stderr, "Invalid signal.\n");
-                
-                // ack = 20 -> OK
-
-                sigcode = 0; // reset signal code
-            }
-
             continue;
         }
 
