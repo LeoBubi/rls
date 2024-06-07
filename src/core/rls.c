@@ -104,7 +104,7 @@ main(int argc, char const *argv[])
     /* ----- terminate ----- */
 
     close(sockfd);
-    printf("Terminated remote login session.\n");
+    printf("\nTerminated remote login session.\n");
 
     exit(rv ? EXIT_SUCCESS : EXIT_FAILURE);
 }
