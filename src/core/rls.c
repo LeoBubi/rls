@@ -5,7 +5,7 @@ char username[UNAMEMAX +1];  // +1 for null terminator
 int port;                    // server port number
 struct in_addr server_ip;    // server IP address
 
-struct termios oldt, newt;   // terminal attributes
+struct termios oldt;   // terminal attributes
 
 
 // reset terminal attributes at exit
@@ -43,6 +43,8 @@ main(int argc, char const *argv[])
 
     /* ----- disable echo and set raw mode ----- */
 
+    struct termios newt;
+
     if (ioctl(STDIN_FILENO, TCGETS, &oldt) < 0) {
 #ifdef __DEBUG
         fprintf(stderr, "rls: cannot get terminal attributes.\n");
@@ -79,6 +81,7 @@ main(int argc, char const *argv[])
     printf("Established connection to server.\n");
     
     /* ----- establish remote login session ----- */
+    
     if (!rls_auth(sockfd)) {
         close(sockfd);
         main_fail("Unable to start remote login session.")
