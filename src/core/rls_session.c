@@ -20,7 +20,7 @@ rls_session(int sockfd)
     sa.sa_handler = signal_handler;
     
     sigaction(SIGINT,  &sa, NULL);
-    // other signal may be added in future
+    sigaction(SIGQUIT, &sa, NULL);
 
     /* ----- communication with server ----- */
 
