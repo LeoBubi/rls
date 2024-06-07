@@ -89,7 +89,6 @@ main(int argc, char const *argv[])
         "#####################################\n"
         "### Started remote login session. ###\n"
         "### Type ~q to quit.              ###\n"
-        "### Type ~h for help.             ###\n"
         "#####################################\n"
         "\n"
     );
