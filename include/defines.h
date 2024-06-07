@@ -104,6 +104,15 @@ int sndtxt(int sockfd, char *msg);
 
 
 /**
+ * @brief Send signal to server.
+ * @param sockfd Socket file descriptor.
+ * @param signo Signal number.
+ * @return 1 if successful, 0 otherwise.
+*/
+int sndsig(int sockfd, rlssig_t signo);
+
+
+/**
  * @brief Send control command to server.
  * @param sockfd Socket file descriptor.
  * @param command Control command code.
