@@ -18,6 +18,7 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 #define TXTMSG 0  // text message type code
 #define SIGMSG 1  // signal message type code
 #define CTLMSG 2  // control message type code
+#define CHRMSG 3  // character message type code
 
 #define rlssig_t char  // signal type
 #define rlsctl_t char  // control type
@@ -86,20 +87,19 @@ int rls_communicate(int sockfd);
 
 
 /**
- * @brief Get message from server.
- * @param sockfd Socket file descriptor.
- * @return Message string if successful, an empty string if server closed connection, or NULL otherwise.
- * @note Returned string must be freed by the caller.
-*/
-char* getmsg(int sockfd);
-
-
-/**
  * @brief Get acknowledgment from server.
  * @param sockfd Socket file descriptor.
  * @return ack value if successful, -1 otherwise.
 */
 rlsack_t getack(int sockfd);
+
+
+/**
+ * @brief Get character from server.
+ * @param sockfd Socket file descriptor.
+ * @return Character if successful, 0 if server closed connection, or -1 otherwise.
+*/
+char getchr(int sockfd);
 
 
 /**
@@ -128,6 +128,15 @@ int sndsig(int sockfd, rlssig_t signo);
  * @return 1 if successful, 0 otherwise.
 */
 int sndctl(int sockfd, rlsctl_t command);
+
+
+/**
+ * @brief Send character to server.
+ * @param sockfd Socket file descriptor.
+ * @param c Character.
+ * @return 1 if successful, 0 otherwise.
+*/
+int sndchr(int sockfd, char c);
 
 
 /**

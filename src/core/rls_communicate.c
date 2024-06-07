@@ -76,23 +76,15 @@ rls_communicate(int sockfd)
 
         if (FD_ISSET(STDIN_FILENO, &readfds))
         {
-            // get user input
-            char *input = userinput(NULL);
-            if (!input) {
-#ifdef __DEBUG
-                fprintf(stderr, "rls_communicate: userinput failed.\n");
-#else
-                fprintf(stderr, "An unexpected error occurred.\n");
-#endif
-                return 0;
-            }
+            // read one character at a time
+            int c = getchar();
 
-            // check for control commands
-            if (input[0] == '~') 
+            // check if control command
+            if (c == '~')
             {
-                // if quit command
-                if (strcmp(input, "~q") == 0) {
-                    free(input);
+                // read control command
+                int cmd = getchar();
+                if (cmd == 'q') {
                     if (!sndctl(sockfd, CTLQUIT)) {
 #ifdef __DEBUG
                         fprintf(stderr, "rls_communicate: cannot send quit command.\n");
@@ -104,13 +96,12 @@ rls_communicate(int sockfd)
                     return 1;
                 }
 
-				fprintf(stderr, "%s: invalid command.\n", input);
-				continue;
+                fprintf(stderr, "Invalid command.\n");
+                continue;
             }
 
-            // send user input to server
-            if (!sndtxt(sockfd, input, 1)) {
-                free(input);
+            // send character to server
+            if (!sndchr(sockfd, c)) {
 #ifdef __DEBUG
                 fprintf(stderr, "rls_communicate: cannot send user input.\n");
                 return 0;
@@ -119,11 +110,7 @@ rls_communicate(int sockfd)
 #endif
             }
 
-            free(input);
-
-            // get server ACK
-            // 20: OK
-            // 50: server error
+            // receive server ACK
             ack = getack(sockfd);
             if (ack == -1) {
 #ifdef __DEBUG
@@ -136,7 +123,12 @@ rls_communicate(int sockfd)
 
             if (ack == 50) {
                 printf("Server error.\n");
-                return 0;
+                return 1;
+            }
+
+            if (ack == 40) {
+                printf("Malformed data.\n");
+                continue;
             }
 
             // ACK = 20 -> OK
@@ -146,8 +138,8 @@ rls_communicate(int sockfd)
         
         else if (FD_ISSET(sockfd, &readfds))
         {
-            char *message = getmsg(sockfd);
-            if (!message) {
+            char c = getchr(sockfd);
+            if (c == -1) {
 #ifdef __DEBUG
                 fprintf(stderr, "rls_communicate: cannot receive server message.\n");
                 return 0;
@@ -157,15 +149,12 @@ rls_communicate(int sockfd)
             }
 
             // check if server closed connection
-            if (strlen(message) == 0) {
-                free(message);
+            if (c == 0) {
                 printf("Server closed connection.\n");
                 return 1;
             }
 
-            printf("%s", message);
-            fflush(stdout);
-            free(message);
+            write(STDOUT_FILENO, &c, 1);
         }
     }
 }

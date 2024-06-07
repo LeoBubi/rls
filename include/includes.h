@@ -20,6 +20,8 @@
 #include <sys/select.h>
 #include <signal.h>
 #include <errno.h>
+#include <sys/ioctl.h>
+#include <termios.h>
 
 
 #include "defines.h"

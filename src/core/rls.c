@@ -5,6 +5,14 @@ char username[UNAMEMAX +1];  // +1 for null terminator
 int port;                    // server port number
 struct in_addr server_ip;    // server IP address
 
+struct termios oldt, newt;   // terminal attributes
+
+
+// reset terminal attributes at exit
+void reset_term(void) {
+    ioctl(STDIN_FILENO, TCSETS, &oldt);
+}
+
 
 int
 main(int argc, char const *argv[])
@@ -58,6 +66,33 @@ main(int argc, char const *argv[])
         "#####################################\n"
         "\n"
     );
+
+    /* ----- disable echo and set raw mode ----- */
+
+    if (ioctl(STDIN_FILENO, TCGETS, &oldt) < 0) {
+#ifdef __DEBUG
+        fprintf(stderr, "rls: cannot get terminal attributes.\n");
+        return 0;
+#else
+        fun_fail("Communication error.")
+#endif
+    }
+
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+
+    if (ioctl(STDIN_FILENO, TCSETS, &newt) < 0) {
+#ifdef __DEBUG
+        fprintf(stderr, "rls: cannot set terminal attributes.\n");
+        return 0;
+#else
+        fun_fail("Communication error.")
+#endif
+    }
+
+    /* ----- register atexit function ----- */
+
+    atexit(reset_term);
 
     /* ----- communicate with server ----- */
 
