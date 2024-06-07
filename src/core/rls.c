@@ -41,16 +41,6 @@ main(int argc, char const *argv[])
         username, inet_ntoa(server_ip), port
     );
 
-    /* ----- connect to server ----- */
-
-    int sockfd = rls_connect();
-    if (!sockfd) {
-        fprintf(stderr, "Unable to connect to server at %s:%d.\n", inet_ntoa(server_ip), port);
-        exit(EXIT_FAILURE);
-    }
-
-    printf("Established connection to server.\n");
-
     /* ----- disable echo and set raw mode ----- */
 
     if (ioctl(STDIN_FILENO, TCGETS, &oldt) < 0) {
@@ -77,6 +67,16 @@ main(int argc, char const *argv[])
     /* ----- register atexit function ----- */
 
     atexit(reset_term);
+
+    /* ----- connect to server ----- */
+
+    int sockfd = rls_connect();
+    if (!sockfd) {
+        fprintf(stderr, "Unable to connect to server at %s:%d.\n", inet_ntoa(server_ip), port);
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Established connection to server.\n");
     
     /* ----- establish remote login session ----- */
     if (!rls_session(sockfd)) {
