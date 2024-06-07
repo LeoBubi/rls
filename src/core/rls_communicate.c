@@ -29,7 +29,7 @@ rls_communicate(int sockfd)
     FD_SET(STDIN_FILENO, &__readfds);
     FD_SET(sockfd, &__readfds);
 
-    ack_t ack;   // server ACK
+    rlsack_t ack;   // server ACK
 
     while (1)
     {

@@ -1,12 +1,12 @@
 #include "includes.h"
 
 
-ack_t
+rlsack_t
 getack(int sockfd)
 {
     /* ----- get ack from server ----- */
     
-    ack_t ack;
+    rlsack_t ack;
     if (read(sockfd, &ack, sizeof(ack)) == -1) {
 #ifdef __DEBUG
         perror("getack: read");

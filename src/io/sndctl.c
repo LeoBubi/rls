@@ -2,7 +2,7 @@
 
 
 int
-sndctl(int sockfd, ctl_t command)
+sndctl(int sockfd, rlsctl_t command)
 {
     char type = CTLMSG;
 

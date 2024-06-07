@@ -19,9 +19,9 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 #define SIGMSG 1  // signal message type code
 #define CTLMSG 2  // control message type code
 
-#define sig_t char  // signal type
-#define ctl_t char  // control type
-#define ack_t char  // ACK type
+#define rlssig_t char  // signal type
+#define rlsctl_t char  // control type
+#define rlsack_t char  // ACK type
 
 #define CTLQUIT 0  // quit command code
 
@@ -99,7 +99,7 @@ char* getmsg(int sockfd);
  * @param sockfd Socket file descriptor.
  * @return ack value if successful, -1 otherwise.
 */
-ack_t getack(int sockfd);
+rlsack_t getack(int sockfd);
 
 
 /**
@@ -118,7 +118,7 @@ int sndtxt(int sockfd, char *msg, int nl);
  * @param signo Signal number.
  * @return 1 if successful, 0 otherwise.
 */
-int sndsig(int sockfd, sig_t signo);
+int sndsig(int sockfd, rlssig_t signo);
 
 
 /**
@@ -127,7 +127,7 @@ int sndsig(int sockfd, sig_t signo);
  * @param command Control command code.
  * @return 1 if successful, 0 otherwise.
 */
-int sndctl(int sockfd, ctl_t command);
+int sndctl(int sockfd, rlsctl_t command);
 
 
 /**

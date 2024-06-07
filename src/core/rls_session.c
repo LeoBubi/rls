@@ -7,7 +7,7 @@ extern char username[UNAMEMAX +1];
 int
 rls_session(int sockfd)
 {
-    ack_t ack;   // ACK value from server
+    rlsack_t ack;   // ACK value from server
 
     /* ----- send username ----- */
     
