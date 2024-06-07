@@ -4,6 +4,7 @@
 extern char username[UNAMEMAX +1];
 extern int port;
 extern struct in_addr server_ip;
+extern int connto;
 
 
 int
@@ -21,7 +22,7 @@ rls_connect(void)
 
     // set reading and writing timeouts
     struct timeval tv;
-    tv.tv_sec = 10;
+    tv.tv_sec = (time_t)connto;
     tv.tv_usec = 0;
 
     if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(tv)) == -1) {

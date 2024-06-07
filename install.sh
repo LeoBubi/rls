@@ -75,6 +75,7 @@ fi
 # Initialize rls configuration file
 echo "USERNAME=$(whoami)" > $HOME/.config/rls/rls.conf
 echo "PORT=513" >> $HOME/.config/rls/rls.conf
+echo "CONNTIMEO=10" >> $HOME/.config/rls/rls.conf
 
 if [ $? -eq 0 ]; then
     echo "Initialized rls configuration file"
@@ -87,6 +88,7 @@ echo "rls has been installed successfully"
 echo ""
 echo "    Default username: $(whoami)"
 echo "    Default port: 513"
+echo "    Default server communication delay limit: 10 seconds"
 echo ""
 
 exit 0

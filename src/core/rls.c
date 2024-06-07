@@ -1,9 +1,10 @@
 #include "includes.h"
 
 
-char username[UNAMEMAX +1];  // +1 for null terminator
-int port;                    // server port number
-struct in_addr server_ip;    // server IP address
+char username[UNAMEMAX +1]; // +1 for null terminator
+int port;                   // server port number
+struct in_addr server_ip;   // server IP address
+int connto;                 // server communication delay limit
 
 struct termios oldt;   // terminal attributes
 

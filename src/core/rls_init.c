@@ -6,6 +6,7 @@ char CONFIG_FILE[PATH_MAX];  // configuration file path
 extern char username[UNAMEMAX +1];
 extern int port;
 extern struct in_addr server_ip;
+extern int connto;
 
 
 int
@@ -119,6 +120,18 @@ rls_init(int argc, char const **argv)
         
         port = atoi(port_str);
     }
+
+    // get client communication delay limit from configuration file
+    char connto_str[16];
+    if (!config_get("CONNTIMEO", connto_str, 16))
+        fun_fail("Failed to get client communication delay limit from configuration file.")
+    
+    if (!isint(connto_str))
+        fun_fail("Maximum password attempts in configuration file must be an integer.")
+    if (atoi(connto_str) < 1)
+        fun_fail("Maximum password attempts must be at least 1.")
+    
+    connto = atoi(connto_str);
 
     return 1;
 }
