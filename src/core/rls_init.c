@@ -100,7 +100,7 @@ rls_init(int argc, char const **argv)
     // if username not provided, get from configuration file
     if (username[0] == '\0')
     {
-        if (!config_get("USERNAME", username, UNAMEMAX+1))
+        if (!config_get("USRNAME", username, UNAMEMAX+1))
             fun_fail("Failed to get username from configuration file.")
     }
 
@@ -108,7 +108,7 @@ rls_init(int argc, char const **argv)
     if (port == 0)
     {
         char port_str[6]; // 5 digits + null terminator
-        if (!config_get("PORT", port_str, 6))
+        if (!config_get("SRVPORT", port_str, 6))
             fun_fail("Failed to get port from configuration file.")
         
         if (!isint(port_str))
@@ -123,7 +123,7 @@ rls_init(int argc, char const **argv)
 
     // get client communication delay limit from configuration file
     char connto_str[16];
-    if (!config_get("CONNTIMEO", connto_str, 16))
+    if (!config_get("CONNTMO", connto_str, 16))
         fun_fail("Failed to get client communication delay limit from configuration file.")
     
     if (!isint(connto_str))

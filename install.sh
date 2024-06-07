@@ -73,9 +73,9 @@ else
 fi
 
 # Initialize rls configuration file
-echo "USERNAME=$(whoami)" > $HOME/.config/rls/rls.conf
-echo "PORT=513" >> $HOME/.config/rls/rls.conf
-echo "CONNTIMEO=10" >> $HOME/.config/rls/rls.conf
+echo "USRNAME=$(whoami)" > $HOME/.config/rls/rls.conf
+echo "SRVPORT=513" >> $HOME/.config/rls/rls.conf
+echo "CONNTMO=10" >> $HOME/.config/rls/rls.conf
 
 if [ $? -eq 0 ]; then
     echo "Initialized rls configuration file"
