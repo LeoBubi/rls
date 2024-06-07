@@ -61,6 +61,9 @@ rls_communicate(int sockfd)
                 if (ack == 50)
                     fun_fail("Server error.")
                 
+                if (ack == 40)
+                    fprintf(stderr, "Invalid signal.\n");
+                
                 // ack = 20 -> OK
 
                 sigcode = 0; // reset signal code
