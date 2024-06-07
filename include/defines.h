@@ -9,7 +9,6 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 #define PORTMIN  1      // minimum server port number
 #define PORTMAX  65535  // maximum server port number
 
-#define CLINMAX 128 // maximum line length in configuration file
 #define PASSMAX 256 // maximum password length
 
 
@@ -38,13 +37,12 @@ int rls_init(int argc, char const **argv);
 
 
 /**
- * @brief Read a line of text from a file descriptor.
- * @param line Buffer to store the line.
- * @param n Size of the buffer.
+ * @brief Read a line from a file descriptor.
  * @param fd File descriptor.
- * @return 1 if successful, 0 otherwise.
+ * @return Line string if successful, NULL otherwise.
+ * @note Returned string must be freed by the caller.
 */
-int rdline(char *line, size_t n, int fd);
+char* rdline(int fd);
 
 
 /**
