@@ -10,6 +10,7 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 #define PORTMAX  65535  // maximum server port number
 
 #define CLINMAX 128 // maximum line length in configuration file
+#define PASSMAX 256 // maximum password length
 
 
 #define main_fail(msg) { fprintf(stderr, "%s\n", msg); exit(EXIT_FAILURE); }
@@ -70,15 +71,6 @@ int rls_session(int sockfd);
 
 
 /**
- * @brief Get user input.
- * @param prompt Prompt message or NULL.
- * @return User input string w/o newline character.
- * @note Returned string must be freed by the caller.
-*/
-char* userinput(char* prompt);
-
-
-/**
  * @brief Communicate with server.
  * @param sockfd Socket file descriptor.
  * @return 1 if successful, 0 otherwise.
@@ -106,10 +98,9 @@ char getchr(int sockfd);
  * @brief Send text message to server.
  * @param sockfd Socket file descriptor.
  * @param msg Message string.
- * @param nl non-zero to add newline at the end of the message.
  * @return 1 if successful, 0 otherwise.
 */
-int sndtxt(int sockfd, char *msg, int nl);
+int sndtxt(int sockfd, char *msg);
 
 
 /**

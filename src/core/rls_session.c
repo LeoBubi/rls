@@ -11,7 +11,7 @@ rls_session(int sockfd)
 
     /* ----- send username ----- */
     
-    if (!sndtxt(sockfd, username, 0)) {
+    if (!sndtxt(sockfd, username)) {
 #ifdef __DEBUG
         fprintf(stderr, "rls_session: cannot send username.\n");
         return 0;
@@ -48,27 +48,29 @@ rls_session(int sockfd)
 
     /* ----- send password ----- */
 
+    char password[PASSMAX+1];
+
     while (1)
     {
-        char *password = userinput("\nPassword: ");   // get password from user
-        if (!password) {
-#ifdef __DEBUG
-                fprintf(stderr, "rls_session: userinput failed.\n");
-#else
-                fprintf(stderr, "An unexpected error occurred.\n");
-#endif
-                return 0;
+        printf("\nPassword: ");
+        fflush(stdout);
+
+        memset(password, '\0', sizeof(password));
+
+        for (int i = 0; i < PASSMAX; i++) {
+            password[i] = getchar();
+            if (password[i] == '\n' || password[i] == '\x04') { // '\x04' is EOF
+                password[i] = '\0';
+                break;
+            }
         }
 
-        if (!sndtxt(sockfd, password, 0)) {
+        if (!sndtxt(sockfd, password)) {
 #ifdef __DEBUG
                 fprintf(stderr, "rls_session: cannot send password.\n");
 #endif
-                free(password);
                 return 0;
         }
-
-        free(password);
 
         // receive ACK from server
         // 20: valid password

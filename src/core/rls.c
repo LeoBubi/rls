@@ -50,22 +50,6 @@ main(int argc, char const *argv[])
     }
 
     printf("Established connection to server.\n");
-    
-    // establish remote login session
-    if (!rls_session(sockfd)) {
-        close(sockfd);
-        main_fail("Unable to start remote login session.")
-    }
-
-    printf(
-        "\n"
-        "#####################################\n"
-        "### Started remote login session. ###\n"
-        "### Type ~q to quit.              ###\n"
-        "### Type ~h for help.             ###\n"
-        "#####################################\n"
-        "\n"
-    );
 
     /* ----- disable echo and set raw mode ----- */
 
@@ -93,6 +77,22 @@ main(int argc, char const *argv[])
     /* ----- register atexit function ----- */
 
     atexit(reset_term);
+    
+    /* ----- establish remote login session ----- */
+    if (!rls_session(sockfd)) {
+        close(sockfd);
+        main_fail("Unable to start remote login session.")
+    }
+
+    printf(
+        "\n\n"
+        "#####################################\n"
+        "### Started remote login session. ###\n"
+        "### Type ~q to quit.              ###\n"
+        "### Type ~h for help.             ###\n"
+        "#####################################\n"
+        "\n"
+    );
 
     /* ----- communicate with server ----- */
 
