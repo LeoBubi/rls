@@ -121,15 +121,17 @@ rls_init(int argc, char const **argv)
         port = atoi(port_str);
     }
 
-    // get client communication delay limit from configuration file
+    // get server communication delay limit from configuration file
     char connto_str[16];
     if (!config_get("CONNTMO", connto_str, 16))
-        fun_fail("Failed to get client communication delay limit from configuration file.")
+        fun_fail("Failed to get server communication delay limit from configuration file.")
     
     if (!isint(connto_str))
         fun_fail("Maximum password attempts in configuration file must be an integer.")
-    if (atoi(connto_str) < 1)
-        fun_fail("Maximum password attempts must be at least 1.")
+    if (atoi(connto_str) < MINCNTO)
+        fun_fail("Server communication delay limit in configuration file too low.")
+    if (atoi(connto_str) > MAXCNTO)
+        fun_fail("Server communication delay limit in configuration file too high.")
     
     connto = atoi(connto_str);
 

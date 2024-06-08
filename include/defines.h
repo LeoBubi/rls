@@ -8,6 +8,8 @@ extern char CONFIG_FILE[PATH_MAX]; // configuration file path
 #define UNAMEMAX 32     // maximum username length
 #define PORTMIN  1      // minimum server port number
 #define PORTMAX  65535  // maximum server port number
+#define MINCNTO 1       // minimum communication delay limit (seconds)
+#define MAXCNTO 3600    // maximum communication delay limit (seconds)
 
 #define PASSMAX 256 // maximum password length
 
