@@ -15,7 +15,7 @@ fi
 
 
 bindir=/usr/local/bin
-mandir=/usr/local/man
+mandir=/usr/local/share/man
 srcdir=/usr/local/src
 confdir=$HOME/.config
 
