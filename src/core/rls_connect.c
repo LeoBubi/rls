@@ -58,7 +58,6 @@ rls_connect(void)
 
 	// 20: server ok: ready to receive username
     // 50: internal server error
-    
     rlsack_t ack = getack(sockfd);
     if (ack == -1) {
         close(sockfd);
