@@ -88,7 +88,7 @@ if [ $missing -eq 1 ]; then
     fi
 
     if [ $bin -eq 0 ]; then
-        mkdir -p $bindir
+        sudo mkdir -p $bindir
         if [ $? -eq 0 ]; then
             echo "Created $bindir"
         else
@@ -97,7 +97,7 @@ if [ $missing -eq 1 ]; then
         fi
     fi
     if [ $man -eq 0 ]; then
-        mkdir -p $mandir
+        sudo mkdir -p $mandir
         if [ $? -eq 0 ]; then
             echo "Created $mandir"
         else
@@ -106,7 +106,7 @@ if [ $missing -eq 1 ]; then
         fi
     fi
     if [ $src -eq 0 ]; then
-        mkdir -p $srcdir
+        sudo mkdir -p $srcdir
         if [ $? -eq 0 ]; then
             echo "Created $srcdir"
         else
@@ -115,7 +115,7 @@ if [ $missing -eq 1 ]; then
         fi
     fi
     if [ $conf -eq 0 ]; then
-        mkdir -p $confdir
+        sudo mkdir -p $confdir
         if [ $? -eq 0 ]; then
             echo "Created $confdir"
         else
@@ -136,6 +136,15 @@ if [ $? -ne 0 ]; then
 fi
 echo "...done"
 echo ""
+
+# Change ownership of rls to root
+sudo chown 0:0 rls
+if [ $? -eq 0 ]; then
+    echo "Changed ownership of rls to root"
+else
+    echo "Failed to change ownership of rls to root"
+    exit 1
+fi
 
 # Install rls in bin directory
 sudo mv rls $bindir/rls
