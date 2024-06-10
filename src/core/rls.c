@@ -49,9 +49,9 @@ main(int argc, char const *argv[])
     if (ioctl(STDIN_FILENO, TCGETS, &oldt) < 0) {
 #ifdef __DEBUG
         fprintf(stderr, "rls: cannot get terminal attributes.\n");
-        return 0;
+        exit(EXIT_FAILURE);
 #else
-        fun_fail("Communication error.")
+        main_fail("Unable to serup program environment.")
 #endif
     }
 
@@ -61,9 +61,9 @@ main(int argc, char const *argv[])
     if (ioctl(STDIN_FILENO, TCSETS, &newt) < 0) {
 #ifdef __DEBUG
         fprintf(stderr, "rls: cannot set terminal attributes.\n");
-        return 0;
+        exit(EXIT_FAILURE);
 #else
-        fun_fail("Communication error.")
+        main_fail("Unable to serup program environment.")
 #endif
     }
 
