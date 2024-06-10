@@ -1,7 +1,7 @@
 #include "includes.h"
 
 
-extern const char *CONFIG_FILE;  // configuration file path
+extern char CONFIG_FILE[PATH_MAX];  // configuration file path
 
 
 int
