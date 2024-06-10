@@ -1,21 +1,31 @@
 # rls
-#### NAME
-`rls` - Remote Login Shell
 
-#### SYNOPSIS
-`rls destination [-l username] [-p port]`
+rls (Remote Login Shell client) is a program for logging into and for executing commands on a remote machine running **rls-server**.
 
-#### DESCRIPTION
-A simple program to start a terminal session on a remote server. `destination` can be either the IP address or the DNS name of the remote server.
+Client-server communication is **unencrypted**. Therefore, it is strongly recommended to make sure that such a communication is between two trusted hosts over a secure network.
 
-Options:
+### Installation
 
--l `username` - Log in as `username`. This overrides the default which is the name of the user invoking `rls`.
+To install **rls**, please run the installation script **install.sh** without root privileges. If it is installed already but not configured for this user, run **config.sh** instead.
 
--p `port` - Connect to the server on port `port`. This overrides the default which is **login**.
+The provided Makefile has to be used only by the installation script, so refrain from running **make** manually.
 
-#### FILES
-~/.config/rls/rls.conf - rls configuration file
+To run **rls** in debugging mode (i.e. with extended verbosity) please add
+```
+-D __DEBUG
+```
+to the `CFLAGS` in the Makefile.
 
-#### AUTHOR
-Written by Leonardo Brugnano <brugnano.2128518@studenti.uniroma1.it>.
+### Uninstallation
+
+To uninstall **rls**, please run the uninstallation script **uninstall.sh** without root privileges.
+
+### Manual
+
+All the necessary documentation is provided in the **rls** manual pages.
+
+`rls(1)`  provides usage information.
+
+`rls(7)`  provides details about the internal structure and functioning of the client.
+
+These manual pages are installed in `/usr/local/share/man`. Please make sure to have it in your **MANPATH**.
