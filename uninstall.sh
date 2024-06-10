@@ -41,7 +41,7 @@ else
 fi
 
 # Remove rls man pages
-rm -f $mandir/man1/rls.1 $mandir/man7/rls.7
+sudo rm -f $mandir/man1/rls.1 $mandir/man7/rls.7
 if [ $? -eq 0 ]; then
     echo "Removed rls man pages under $mandir"
 else
@@ -50,7 +50,7 @@ else
 fi
 
 # Remove rls source code
-rm -rf $srcdir/rls
+sudo rm -rf $srcdir/rls
 if [ $? -eq 0 ]; then
     echo "Removed rls source code under $srcdir"
 else

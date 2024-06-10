@@ -165,7 +165,7 @@ fi
 
 # Copy rls(1) to man directory
 if [ ! -d "$mandir/man1" ]; then
-    mkdir $mandir/man1
+    sudo mkdir $mandir/man1
     if [ $? -eq 0 ]; then
         echo "Created $mandir/man1 directory"
     else
@@ -173,7 +173,7 @@ if [ ! -d "$mandir/man1" ]; then
         exit 1
     fi
 fi
-cp man/rls.1 $mandir/man1
+sudo cp man/rls.1 $mandir/man1
 if [ $? -eq 0 ]; then
     echo "Moved rls(1) to $mandir/man1"
 else
@@ -183,7 +183,7 @@ fi
 
 # Copy rls(7) to /usr/local/share/man/man7
 if [ ! -d "$mandir/man7" ]; then
-    mkdir $mandir/man7
+    sudo mkdir $mandir/man7
     if [ $? -eq 0 ]; then
         echo "Created $mandir/man7 directory"
     else
@@ -191,7 +191,7 @@ if [ ! -d "$mandir/man7" ]; then
         exit 1
     fi
 fi
-cp man/rls.7 $mandir/man7
+sudo cp man/rls.7 $mandir/man7
 if [ $? -eq 0 ]; then
     echo "Moved rls(7) to $mandir/man7"
 else
@@ -200,15 +200,15 @@ else
 fi
 
 # Copy source code to src directory
-mkdir $srcdir/rls
+sudo mkdir $srcdir/rls
 if [ $? -eq 0 ]; then
     echo "Created $srcdir/rls"
 else
     echo "Failed to create $srcdir/rls"
     exit 1
 fi
-cp -r include $srcdir/rls/include
-cp -r src $srcdir/rls/src
+sudo cp -r include $srcdir/rls/include
+sudo cp -r src $srcdir/rls/src
 if [ $? -eq 0 ]; then
     echo "Copied source code to $srcdir/rls"
 else
