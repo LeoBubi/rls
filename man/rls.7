@@ -148,6 +148,18 @@ Maximum length: 32 characters.
 
 .El
 
+.Sh AUTHENTICATION
+The function that deals with remote user authentication is 
+.Em rls_auth() .
+It begins by automatically sending the username. If the server replies with a 
+positive acknowledgement, then the requested remote user exists and is legal 
+to be logged into, otherwise the connection is closed by the server. 
+.Pp
+Then, an interactivelly providen password is sent. If it's correct, the server 
+replies with a positive acknowledgement. If it's wrong, the server either tells
+the client to retry, or acknowledges that too many attempts have been made and 
+closes the connection.
+
 .Sh COMMUNICATION
 
 .Ss Message acknowledgement
