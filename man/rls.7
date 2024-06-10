@@ -1,0 +1,206 @@
+.Dd $Mdocdate: June 10 2024 $
+.Dt RLS 7
+.Os
+
+.Sh NAME
+.Nm rls
+.Nd Remote Login Shell client
+
+.Sh SYNOPSIS
+.Nm
+.Ar destination
+.Op Fl l Ar username
+.Op Fl p Ar port
+
+.Sh DESCRIPTION
+This manual page describes the specific operation and file
+hierarchy of
+.Nm rls,
+providing also an overview of the communication protocol with the server.
+.Pp
+This manual page is structured as follows:
+.Pp
+.Bl -bullet -offset indent -compact
+
+.It
+.Em Program structure :
+File hierarchy and source code organization.
+
+.It
+.Em Configuration :
+Configuration file structure and fields.
+
+.It
+.Em Communication :
+Client-Server communication protocol.
+
+.El
+
+.Sh PROGRAM STRUCTURE
+The program file hierarchy is structured as follows:
+.Pp
+
+.nf
+rls-server  
+   ├──── core  
+   │      ├── rls_auth
+   │      ├── rls_check.c  
+   │      ├── rls_connect.c  
+   │      ├── rls_init.c
+   │      ├── rls_session.c  
+   │      └── rls.c 
+   ├──── io  
+   │      ├── getack.c
+   │      ├── getchr.c
+   │      ├── sndchr.c  
+   │      ├── sndctl.c
+   │      ├── sndsig.c
+   │      └── sndtxt.c  
+   └──── utils  
+          ├── config_get.c   
+          ├── isint.c  
+          ├── rdline.c  
+          └── usage.c  
+.fi
+
+.Ss core directory
+This directory contains, namely, the core of the program. The 
+.Em main
+function is located inside 
+.Nm rls.c .
+Both 
+.Em rls_check() 
+and 
+.Em rls_init()
+are called during the startup phase of the program. The former performs a series
+of initial checks (e.g. check program privileges), whereas the latter initializes
+the client by reading eventual command line arguments and the configuration file.
+.Pp
+Once the client initialization is complete, 
+.Em rls_connect()
+establishes the connection to the specified server. At this point, 
+.Em rls_auth() 
+manages the client authentication. Once the client is authenticated as the 
+remote user, 
+.Em rls_session()
+is called to manage the entire client-server communication until the connection 
+is closed by either party.
+
+.Ss io directory
+This directory contains functions that support client-server communication.
+.Pp
+.Em getack()
+is used to receive an acknowledgement response by the server.
+.Em getchr()
+is used to receive a single character from the server.
+.Em sndchr()
+is used to send a single character to the server.
+.Em sndctl()
+is used to send a control code to the server.
+.Em sndsig()
+is used to send a signal number to the server.
+.Em sndtxt()
+is used to send a variable-length string to the server.
+.Pp
+For details about the communication protocol see COMMUNICATION.
+
+.Ss utils directory
+This directory contains a set of utility functions that support the
+program execution.
+.Pp
+.Bl -tag -width Ds
+
+.It config_get()
+reads the value of a variable stored in the configuration file.
+
+
+.It isint()
+tells if a string represents an integer value.
+
+.It rdline()
+reads the next '\\n'-terminated line from a file descriptor.
+
+.It usage()
+simply prints the program usage. This is called if the program is invoked with
+no arguments.
+
+.Sh CONFIGURATION
+Each line in the configuration file represents a configuration
+variable in the form <key>=<value>.
+.Pp
+The defined variables are:
+
+.Bl -tag -width Ds
+.It Em CONNTMO
+When communicating with the server, if a receive or send operation stalls for more then
+.Em CONNTMO
+seconds, the client closes the connection. Minimum value: 1. Maximum value: 3600.
+Default value: 10.
+
+.It Em SRVPORT
+The port on the server to connect to. This may be overridden by the associated command
+line option at invocation time. All valid ports number are legal. Default value: 513.
+
+.It Em USRNAME
+Name of the remote user to log in as. This may be overridden by the associated command
+line option at invocation time. Default value: name of the user invoking rlogin.
+Maximum length: 32 characters.
+
+.El
+
+.Sh COMMUNICATION
+
+.Ss Message acknowledgement
+Regardless of the type, for each message sent to the server, the client always 
+expects an acknowledgement response from the server containing an acknowledgement 
+code that belongs to one of the following ranges:
+
+.Bl -bullet -offset indent -compact
+.It
+.Em 20-29 :
+Successful responses
+
+.It 
+.Em 40-49 :
+Client error responses
+
+.It
+.Em 50-59 :
+Server error responses
+
+.El
+
+.Ss Message types
+The server can receive from the client messages up to four different types.
+In order for the server to be able to understand the type, each
+message from the client consists of at least two packets: the first one
+contains the message type, while the others contain its payload.
+.Pp
+Below the four message types:
+
+.Bl -bullet -offset indent -compact
+.It
+.Em Text :
+Message containing a variable-length string. Structured in three packets:
+message type, payload size, payload. Used for sending username and password
+during the authentication phase.
+
+.It
+.Em Character :
+Message containing a single ASCII character. Structured in two packets:
+message type, character. 
+
+.It
+.Em Signal :
+Message containing a signal number. Structured in two packets: message type, 
+signal number. Used for forwarding signals captured by the client to the remote
+shell. Currently, only SIGINT and SIGQUIT are handled.
+
+.It 
+.Em Control :
+Message containing a control code to be interpreted accordingly by the server.
+Structured in two packets: message type, control code. Currently, only one control
+code is defined, which is used when the user types '~q' for telling the server to 
+terminate the client session.
+
+.El
