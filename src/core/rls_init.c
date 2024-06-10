@@ -8,6 +8,9 @@ extern int port;
 extern struct in_addr server_ip;
 extern int connto;
 
+// check if port is an integer and within valid range
+int __check_port(char *port_str);
+
 
 int
 rls_init(int argc, char const **argv)
@@ -58,16 +61,9 @@ rls_init(int argc, char const **argv)
         {
             if (i+1 >= argc)
                 fun_fail("No port provided.")
-            if (!isint(argv[i+1]))
-                fun_fail("Port number must be an integer.")
-            if (atoi(argv[i+1]) < PORTMIN) {
-                fprintf(stderr, "Minimum port number is %d.\n", PORTMIN);
+            
+            if (!__check_port(argv[i+1]))
                 return 0;
-            }
-            if (atoi(argv[i+1]) > PORTMAX) {
-                fprintf(stderr, "Maximum port number is %d.\n", PORTMAX);
-                return 0;
-            }
             
             port = atoi(argv[++i]);
         }
@@ -111,12 +107,8 @@ rls_init(int argc, char const **argv)
         if (!config_get("SRVPORT", port_str, 6))
             fun_fail("Failed to get port from configuration file.")
         
-        if (!isint(port_str))
-            fun_fail("Port number in configuration file must be an integer.")
-        if (atoi(port_str) < PORTMIN)
-            fun_fail("Port number in configuration file too low.")
-        if (atoi(port_str) > PORTMAX)
-            fun_fail("Port number in configuration file too high.")
+        if (!__check_port(port_str))
+            return 0;
         
         port = atoi(port_str);
     }
@@ -135,5 +127,23 @@ rls_init(int argc, char const **argv)
     
     connto = atoi(connto_str);
 
+    return 1;
+}
+
+
+int 
+__check_port(char *port_str)
+{
+    if (!isint(port_str))
+        fun_fail("Port must be an integer.")
+    if (atoi(port_str) < PORTMIN) {
+        fprintf(stderr, "Minimum port number is %d.\n", PORTMIN);
+        return 0;
+    }
+    if (atoi(port_str) > PORTMAX) {
+        fprintf(stderr, "Maximum port number is %d.\n", PORTMAX);
+        return 0;
+    }
+    
     return 1;
 }
