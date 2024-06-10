@@ -51,7 +51,7 @@ main(int argc, char const *argv[])
         fprintf(stderr, "rls: cannot get terminal attributes.\n");
         exit(EXIT_FAILURE);
 #else
-        main_fail("Unable to serup program environment.")
+        main_fail("Unable to setup program environment.")
 #endif
     }
 
@@ -63,7 +63,7 @@ main(int argc, char const *argv[])
         fprintf(stderr, "rls: cannot set terminal attributes.\n");
         exit(EXIT_FAILURE);
 #else
-        main_fail("Unable to serup program environment.")
+        main_fail("Unable to setup program environment.")
 #endif
     }
 
