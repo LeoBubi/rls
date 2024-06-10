@@ -1,0 +1,77 @@
+.Dd $Mdocdate: June 10 2024 $
+.Dt RLS 1
+.Os
+
+.Sh NAME
+.Nm rls
+.Nd Remote Login Shell client
+
+.Sh SYNOPSIS
+.Nm
+.Ar destination
+.Op Fl l Ar username
+.Op Fl p Ar port
+
+.Sh description
+.Nm
+is a program for logging into and for executing commands on a remote machine 
+running 
+.Nm rls-server .
+.Pp
+Client-server communication is 
+.Em unencrypted . 
+Therefore, it is strongly recommended to make sure that such a communication is 
+between two trusted hosts over a secure network.
+.Pp
+.Nm rls
+connects and logs into the specified
+.Ar destination ,
+which may be either an IP address or a DNS name.
+.Pp
+
+Options:
+
+.Bl -tag -width Ds
+.It Fl l Ar username
+Log into the remote user 
+.Ar username . 
+This overrides the default which 
+is the name of the user invoking 
+.Nm rls .
+
+.It Fl p Ar port
+Connect to the server at port 
+.Ar port .
+This overrides the default which is 513.
+
+.El
+.Pp
+
+To disconnect from the server, type Tilde+Q (~q).
+.Pp
+All echoing takes place at the remote server, so that (except for delays)
+.Ar rls
+is almost transparent.
+
+.Sh FILES
+.Bl -tag -width Ds
+.It Em ~/.config/rls/rls.conf
+.Nm rls
+configuration file. See 
+.Xr rls(7) .
+.El
+
+.Sh NOTES
+See 
+.Xr rls(7)
+for a detailed explanation of how 
+.Nm rls
+works.
+
+.Sh SEE ALSO
+.Xr rls(7)
+.Xr rls-server(1)
+.Xr rls-server(7)
+
+.Sh AUTHOR
+.An Leonardo Brugnano Aq Mt brugnano.2128518@studenti.uniroma1.it
