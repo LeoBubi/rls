@@ -18,15 +18,15 @@ void reset_term(void) {
 int
 main(int argc, char const *argv[])
 {
-    /* ----- initial checks ----- */
-
-    if (!rls_check())
-        exit(EXIT_FAILURE);
-    
     if (argc == 1) {    // if no arguments provided, print usage
         usage(argv[0]);
         exit(EXIT_SUCCESS);
     }
+
+    /* ----- initial checks ----- */
+
+    if (!rls_check())
+        exit(EXIT_FAILURE);
 
     /* ----- initialize rls client ----- */
 
