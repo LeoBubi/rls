@@ -1,6 +1,6 @@
 # rls
 
-rls (Remote Login Shell client) is a program for logging into and for executing commands on a remote machine running **rls-server**.
+rls is a program for logging into and for executing commands on a remote machine running **rls-server**.
 
 Client-server communication is **unencrypted**. Therefore, it is strongly recommended to make sure that such a communication is between two trusted hosts over a secure network.
 
