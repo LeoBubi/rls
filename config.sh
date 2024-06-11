@@ -11,7 +11,15 @@ if [ -z "$HOME" ]; then
 fi
 
 
+bindir=/usr/local/bin
 confdir=$HOME/.config
+
+
+# Check if rls is installed
+if [ ! -f "$bindir/rls" ]; then
+    echo "rls is not installed"
+    exit 1
+fi
 
 
 # Remove rls directory if it exists
