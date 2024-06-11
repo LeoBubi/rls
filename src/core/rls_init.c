@@ -9,7 +9,7 @@ extern struct in_addr server_ip;
 extern int connto;
 
 // check if port is an integer and within valid range
-int __check_port(char *port_str);
+int __check_port(const char *port_str);
 
 
 int
@@ -132,7 +132,7 @@ rls_init(int argc, char const **argv)
 
 
 int 
-__check_port(char *port_str)
+__check_port(const char *port_str)
 {
     if (!isint(port_str))
         fun_fail("Port must be an integer.")
