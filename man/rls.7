@@ -80,7 +80,7 @@ Once the client initialization is complete,
 .Em rls_connect()
 establishes the connection to the specified server. At this point, 
 .Em rls_auth() 
-manages the client authentication. Once the client is authenticated as the 
+manages client authentication. Once the client is authenticated as the 
 remote user, 
 .Em rls_session()
 is called to manage the entire client-server communication until the connection 
@@ -164,7 +164,7 @@ closes the connection.
 
 .Ss Message acknowledgement
 Regardless of the type, for each message sent to the server, the client always 
-expects an acknowledgement response from the server containing an acknowledgement 
+expects an acknowledgement response containing an acknowledgement 
 code that belongs to one of the following ranges:
 
 .Bl -bullet -offset indent -compact
