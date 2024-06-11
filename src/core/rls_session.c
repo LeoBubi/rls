@@ -79,6 +79,31 @@ rls_session(int sockfd)
             // read one character at a time
             int c = getchar();
 
+            // check if escape sequence
+            if (c == '\x1b')    // ESC
+            {
+                int seq = getchar();
+                if (seq == '[') 
+                {
+                    int cmd = getchar();
+                    if (cmd == 'A')
+                        c = '\x10'; // UP (Ctrl+P)
+                    else if (cmd == 'B')
+                        c = '\x0e'; // DOWN (Ctrl+N)
+                    else if (cmd == 'C')
+                        c = '\x06'; // RIGHT (Ctrl+F)
+                    else if (cmd == 'D')
+                        c = '\x02'; // LEFT (Ctrl+B)
+                    else if (cmd == '3' && getchar() == '~')
+                        c = '\x08'; // DELETE (Ctrl+H)
+                    else {
+                        fprintf(stderr, "Invalid escape sequence.\n");
+                        continue;
+                    }
+                }
+
+            }
+
             // check if control command
             if (c == '~')
             {
