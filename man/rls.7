@@ -38,6 +38,10 @@ Client authentication.
 .Em Communication :
 Client-Server communication protocol.
 
+.It
+.Em Input processing :
+Multi-character input management.
+
 .El
 
 .Sh PROGRAM STRUCTURE
@@ -153,16 +157,18 @@ Maximum length: 32 characters.
 .El
 
 .Sh AUTHENTICATION
-The function that deals with remote user authentication is 
+The function responsible for handling remote user authentication is 
 .Em rls_auth() .
-It begins by automatically sending the username. If the server replies with a 
-positive acknowledgement, then the requested remote user exists and is legal 
-to be logged into, otherwise the connection is closed by the server. 
+This function initiates the authentication process by automatically sending 
+the username. If the server responds with a positive acknowledgment, it indicates 
+that the  specified remote user exists and is permitted to log in. Otherwise, the 
+server terminates the connection.
 .Pp
-Then, an interactivelly providen password is sent. If it's correct, the server 
-replies with a positive acknowledgement. If it's wrong, the server either tells
-the client to retry, or acknowledges that too many attempts have been made and 
-closes the connection.
+Subsequently, the user is prompted to provide a password interactively. If the 
+password is correct, the server responds with a positive acknowledgment. If the 
+password is incorrect, the server either instructs the client to retry or indicates 
+that the maximum number of attempts has been exceeded, and then closes the connection.
+
 
 .Sh COMMUNICATION
 
@@ -220,3 +226,20 @@ code is defined, which is used when the user types '~q' for telling the server t
 terminate the client session.
 
 .El
+
+.Sh INPUT PROCESSING
+To enable the proper management of essential features such as cursor movement 
+and command history navigation, special input processing is required. Each arrow 
+key generates a multi-character escape sequence that cannot be directly sent to 
+the remote shell. Instead, these escape sequences are translated into their 
+corresponding special ASCII characters.
+.Pp
+For example, the right arrow key generates the escape sequence 'ESC [ C', which is 
+translated into the ASCII character 0x06. This character is interpreted by the 
+remote terminal as the command to move the cursor forward one position. Similarly, 
+other arrow keys and special function keys are mapped to their respective ASCII 
+control characters to facilitate seamless cursor and command history management.
+.Pp
+This translation ensures that the remote terminal correctly interprets key presses, 
+allowing for efficient and intuitive input handling.
+
